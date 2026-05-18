@@ -54,15 +54,31 @@
                     <button><i class="fa-solid fa-magnifying-glass"></i> Buscar</button>
                 </div>
             </div>
-            <div class="hero-tarjeta-vecino card">
-                <h3>Tarjeta Vecino Digital</h3>
-                <p>Ingresa para consultar o solicitar tu tarjeta digital y acceder a beneficios.</p>
-                <div class="rut-input-group">
-                    <input type="text" placeholder="Ingresa tu RUT (Ej: 12345678-9)">
-                    <button class="btn-primary">Ingresar / Validar RUT</button>
-                </div>
+           <div class="hero-tarjeta-vecino card">
+    <h3>Tarjeta Vecino Digital</h3>
+    <p>Ingresa para consultar o solicitar tu tarjeta digital y acceder a beneficios.</p>
+    
+    <div class="tarjeta-flip-container">
+        <input type="checkbox" id="flip-toggle" class="flip-checkbox">
+        <label for="flip-toggle" class="tarjeta-flip-card">
+            
+            <div class="tarjeta-front">
+                <img src="../img/tarjeta_frontal.png" alt="Tarjeta Vecino Frontal">
+                <div class="hint-flip"><i class="fa-solid fa-rotate"></i> Haz clic para ver el reverso</div>
             </div>
-        </div>
+            
+            <div class="tarjeta-back">
+                <img src="../img/tarjeta_trasera.png" alt="Tarjeta Vecino Reverso">
+                <div class="hint-flip"><i class="fa-solid fa-rotate"></i> Haz clic para ver el frente</div>
+            </div>
+
+        </label>
+    </div>
+    <div class="rut-input-group">
+        <input type="text" placeholder="Ingresa tu RUT (Ej: 12345678-9)">
+        <button class="btn-primary">Ingresar / Validar RUT</button>
+    </div>
+</div>
     </section>
 
     <section class="convenios-destacados container">

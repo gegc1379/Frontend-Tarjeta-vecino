@@ -405,3 +405,74 @@ a {
     .main-nav { display: none; }
     .top-bar-content { flex-direction: column; align-items: center; gap: 8px; }
 }
+/* --- Contenedor Principal del Flip --- */
+.tarjeta-flip-container {
+    perspective: 1000px;
+    width: 100%;
+    max-width: 450px; /* Ajusta el ancho máximo ideal para tu diseño */
+    margin: 20px auto;
+}
+
+/* Ocultar el checkbox de control */
+.flip-checkbox {
+    display: none;
+}
+
+/* --- Cuerpo de la tarjeta que va a rotar --- */
+.tarjeta-flip-card {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1.58 / 1; /* Proporción estándar de una tarjeta de crédito/identificación */
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
+
+/* --- Mecanismo de giro al estar seleccionado (Checked) --- */
+.flip-checkbox:checked + .tarjeta-flip-card {
+    transform: rotateY(180deg);
+}
+
+/* --- Configuración de ambas caras (Frente y Reverso) --- */
+.tarjeta-front, .tarjeta-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    background-color: #fff;
+}
+
+/* Ajustar las imágenes para que cubran perfectamente el recuadro */
+.tarjeta-front img, .tarjeta-back img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill; /* Asegura que se adapte al contenedor redondeado */
+    display: block;
+}
+
+/* El reverso inicia volteado 180 grados */
+.tarjeta-back {
+    transform: rotateY(180deg);
+}
+
+/* --- Texto de ayuda flotante (Opcional, mejora la experiencia de usuario) --- */
+.hint-flip {
+    position: absolute;
+    bottom: 8px;
+    right: 12px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'Source Sans 3', sans-serif;
+}
