@@ -679,7 +679,7 @@ a {
 
 .mt-4 { margin-top: 16px; }
 
-/* --- MODAL DE REGISTRO --- */
+/* --- MODAL DE REGISTRO / GENERAL --- */
 .modal-overlay {
     display: none; /* Oculto por defecto */
     position: fixed;
@@ -966,4 +966,80 @@ body.alto-contraste .tarjeta-back {
 }
 body.alto-contraste .section-header h2::after {
     background-color: #ff0;
+}
+
+/* =========================================
+   NUEVAS CLASES: MODAL DE BENEFICIOS Y DOBLE INPUT
+   ========================================= */
+
+.modal-intro {
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+    color: #444;
+}
+
+.beneficios-list {
+    display: grid;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.beneficio-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.beneficio-icon {
+    font-size: 1.5rem;
+    color: var(--primary-blue);
+}
+
+.beneficio-title {
+    display: block;
+    color: #333;
+}
+
+.beneficio-desc {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.modal-cta {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    border: 1px solid #e9ecef;
+}
+
+.modal-cta-title {
+    color: var(--primary-blue);
+    display: block;
+    margin-bottom: 5px;
+}
+
+.modal-cta-text {
+    font-size: 0.85rem;
+    color: #555;
+}
+
+/* --- DOBLE INPUT (RUT Y N° DE SERIE) --- */
+.input-row {
+    display: flex;
+    gap: 10px;
+    width: 100%; /* Fuerza a la fila a respetar el límite de la tarjeta */
+}
+
+.input-row input {
+    flex: 1; 
+    min-width: 0; /* LA MAGIA: Permite que el input se encoja para caber en la fila */
+    width: 100%;
+}
+
+/* Responsividad para móviles: apila los inputs si la pantalla es muy pequeña */
+@media (max-width: 480px) {
+    .input-row {
+        flex-direction: column;
+    }
 }
