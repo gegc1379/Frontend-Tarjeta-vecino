@@ -16,9 +16,9 @@
         <div class="container top-bar-content">
             <div class="accessibility">
                 <span>Accesibilidad:</span>
-                <a href="https://www.munistgo.cl"><i class="fa-solid fa-plus"></i> Aumentar texto</a>
-                <a href="https://www.munistgo.cl"><i class="fa-solid fa-minus"></i> Reducir texto</a>
-                <a href="https://www.munistgo.cl"><i class="fa-solid fa-circle-half-stroke"></i> Alto contraste</a>
+                <button id="btn-aumentar" style="background:none;border:none;cursor:pointer;"><i class="fa-solid fa-plus"></i> Aumentar texto</button>
+                <button id="btn-reducir" style="background:none;border:none;cursor:pointer;margin-left:10px;"><i class="fa-solid fa-minus"></i> Reducir texto</button>
+                <button id="btn-contraste" style="background:none;border:none;cursor:pointer;margin-left:10px;"><i class="fa-solid fa-circle-half-stroke"></i> Alto contraste</button>
             </div>
             <div class="contact-phones">
                 <i class="fa-solid fa-phone"></i> 800 203 011 | <i class="fa-brands fa-whatsapp"></i> +569 78597199
@@ -31,16 +31,19 @@
             <div class="logo">
                 <h1>MuniSTGO</h1>
             </div>
-            <nav class="main-nav">
+            <nav class="main-nav" id="main-nav">
                 <ul>
-                    <li><a href="https://www.munistgo.cl/la-comuna/">La Comuna</a></li>
-                    <li><a href="https://www.munistgo.cl/transparencia/">La Municipalidad</a></li>
-                    <li><a href="https://www.munistgo.cl/tramites-municipales/">Trámites</a></li>
-                    <li><a href="https://www.munistgo.cl/servicios-municipales/">Servicios</a></li>
-                    <li><a href="https://www.munistgo.cl/medio-ambiente/">Territorio y Verde</a></li>
-                    <li><a href="https://www.munistgo.cl/noticias/">Noticias</a></li>
+                    <li><a href="https://www.munistgo.cl/la-comuna/" class="nav-link">La Comuna</a></li>
+                    <li><a href="https://www.munistgo.cl/transparencia/" class="nav-link">La Municipalidad</a></li>
+                    <li><a href="https://www.munistgo.cl/tramites-municipales/" class="nav-link">Trámites</a></li>
+                    <li><a href="https://www.munistgo.cl/servicios-municipales/" class="nav-link">Servicios</a></li>
+                    <li><a href="https://www.munistgo.cl/medio-ambiente/" class="nav-link">Territorio y Verde</a></li>
+                    <li><a href="https://www.munistgo.cl/noticias/" class="nav-link">Noticias</a></li>
                 </ul>
             </nav>
+            <button id="nav-toggle" aria-label="Abrir menú" aria-expanded="false" style="display:none;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;">
+                <i class="fa-solid fa-bars"></i>
+            </button>
         </div>
     </header>
 
@@ -57,7 +60,7 @@
 
             <div class="hero-tarjeta-vecino card">
                 <h3>Tarjeta Vecino Digital</h3>
-                <p>Ingresa para consultar o solicitar tu tarjeta digital y acceder a beneficios.</p>
+                <p>Consulta tu Tarjeta Vecino Digital ingresando RUT o número de tarjeta.</p>
 
                 <div class="tarjeta-flip-container">
                     <input type="checkbox" id="flip-toggle" class="flip-checkbox">
@@ -132,14 +135,72 @@
                 </div>
 
                 <div class="rut-input-group">
-                    <input type="text" id="vecino-rut" placeholder="Ingresa tu RUT (Ej: 12345678-9)">
-                    <button type="button" id="btn-validar" class="btn-primary">Ingresar / Validar RUT</button>
-                    <button type="button" id="btn-abrir-registro" style="background: none; border: none; color: var(--primary-blue); font-weight: bold; text-decoration: underline; cursor: pointer; margin-top: 5px;">
-                        ¿No tienes tarjeta? Solicítala aquí
-                    </button>
+                    <div class="input-row">
+                        <input type="text" id="vecino-rut" placeholder="Tu RUT (Ej: 12345678-9)">
+                        <input type="text" id="vecino-serie" placeholder="N° de Tarjeta">
+                    </div>
+
+                    <small class="input-help">Ingrese un RUT o un número de tarjeta para realizar su consulta.</small>
+
+                    <button type="button" id="btn-validar" class="btn-primary">Consultar Tarjeta</button>
                 </div>
 
             </div>
+        </div>
+    </section>
+
+    <section id="dashboard-vecino" class="dashboard-vecino container" style="display: none; margin-top: 40px; margin-bottom: 40px;">
+        <div class="dashboard-header">
+            <h2>Mi Portal Vecino</h2>
+            <div class="dashboard-tabs">
+                <button class="tab-btn active" id="tab-beneficios">Mis Beneficios</button>
+                <button class="tab-btn" id="tab-historial">Historial de Uso</button>
+            </div>
+        </div>
+
+        <div id="content-beneficios" class="tab-content active">
+            <div class="beneficios-grid">
+                <div class="beneficio-item-card">
+                    <div class="beneficio-icon-wrapper"><i class="fa-solid fa-briefcase-medical"></i></div>
+                    <div class="beneficio-details">
+                        <span class="categoria">Salud</span>
+                        <h4>Descuento 20% Farmacias</h4>
+                        <p><i class="fa-solid fa-location-dot"></i> Red Salud Sur</p>
+                    </div>
+                    <button class="btn-outline">Obtener Beneficio</button>
+                </div>
+                <div class="beneficio-item-card">
+                    <div class="beneficio-icon-wrapper"><i class="fa-solid fa-graduation-cap"></i></div>
+                    <div class="beneficio-details">
+                        <span class="categoria">Educación</span>
+                        <h4>Beca 15% Preuniversitario</h4>
+                        <p><i class="fa-solid fa-location-dot"></i> Instituto Nacional</p>
+                    </div>
+                    <button class="btn-outline">Obtener Beneficio</button>
+                </div>
+                <div class="beneficio-item-card">
+                    <div class="beneficio-icon-wrapper"><i class="fa-solid fa-store"></i></div>
+                    <div class="beneficio-details">
+                        <span class="categoria">Comercio</span>
+                        <h4>10% Compras Locales</h4>
+                        <p><i class="fa-solid fa-location-dot"></i> Minimarket El Sol</p>
+                    </div>
+                    <button class="btn-outline">Obtener Beneficio</button>
+                </div>
+                <div class="beneficio-item-card">
+                    <div class="beneficio-icon-wrapper"><i class="fa-solid fa-volleyball"></i></div>
+                    <div class="beneficio-details">
+                        <span class="categoria">Deporte</span>
+                        <h4>Acceso Liberado Piscina</h4>
+                        <p><i class="fa-solid fa-location-dot"></i> Polideportivo Central</p>
+                    </div>
+                    <button class="btn-outline">Obtener Beneficio</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="content-historial" class="tab-content" style="display: none;">
+            <p style="color: #666; text-align: center; padding: 40px;">Aquí construiremos la tabla del historial en el siguiente paso.</p>
         </div>
     </section>
 
@@ -378,37 +439,7 @@
         </div>
     </footer>
 
-    <div id="modal-registro" class="modal-overlay">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Solicitar Tarjeta Vecino</h3>
-                <button id="btn-cerrar-registro" class="btn-close"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div class="modal-body">
-                <p style="margin-bottom: 15px; font-size: 0.9rem; color: #666;">Complete sus datos personales. El sistema validará su residencia y generará su credencial digital de forma automática.</p>
-                <form id="form-registro">
-                    <div class="form-group">
-                        <label for="reg-rut">RUT</label>
-                        <input type="text" id="reg-rut" placeholder="Ej: 12345678-9" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="reg-nombres">Nombres</label>
-                        <input type="text" id="reg-nombres" placeholder="Ej: Juan Andrés" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="reg-apellidos">Apellidos</label>
-                        <input type="text" id="reg-apellidos" placeholder="Ej: Pérez Gómez" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="reg-telefono">Teléfono (Opcional)</label>
-                        <input type="tel" id="reg-telefono" placeholder="Ej: +56912345678">
-                    </div>
-                    <button type="submit" class="btn-primary" style="width: 100%; margin-top: 10px; border-radius: 8px;">Enviar Solicitud</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
+    <script src="../js/index.js"></script>
     <script src="../js/tarjeta.js"></script>
 
 </body>

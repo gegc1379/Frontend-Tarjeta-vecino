@@ -4,29 +4,45 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if(btnValidar) {
         btnValidar.addEventListener('click', async () => {
+            // 1. Capturamos ambos inputs
             const rutInput = document.getElementById('vecino-rut').value.trim();
+            const serieInput = document.getElementById('vecino-serie').value.trim();
+            const params = new URLSearchParams();
 
-            if (!rutInput) {
-                alert("Por favor, ingresa un RUT válido.");
+            // 2. Validación Frontend: Al menos uno debe tener datos
+            if (!rutInput && !serieInput) {
+                alert("Por favor, ingresa tu RUT o el Número de Tarjeta para validar.");
                 return;
             }
 
-            try {
-                const URL_API = `http://localhost:8000/tarjeta/rut/${rutInput}`; 
+            // 3. Armamos el JSON de envío (Payload)
+            const payloadBusqueda = {
+                rut: rutInput !== "" ? rutInput : null,
+                numero_tarjeta: serieInput !== "" ? serieInput : null
+            };
 
+            try {
+                // 4. URL limpia: Ya no necesitas params en la URL, los datos van en el cuerpo
+                const URL_API = `http://localhost:8000/tarjeta/buscar/${params.toString()}`; 
+
+                // 5. Petición POST
                 const respuesta = await fetch(URL_API, {
-                    method: 'GET',
+                    method: 'GET', // Asegúrate de que sea POST
                     headers: {
                         'Content-Type': 'application/json'
-                    }
+                    },
+                    body: JSON.stringify(payloadBusqueda) // Aquí viajan los datos de forma segura
                 });
 
                 if (!respuesta.ok) {
-                    throw new Error("Vecino no registrado o error en la comunicación de red.");
+                    throw new Error("Vecino no registrado o credenciales inválidas.");
                 }
+                
+                // ... el resto de tu código sigue igual ...
 
                 const dataJson = await respuesta.json();
 
+                // 6. Evaluación de estados centralizada
                 if (dataJson.estado === 'bloqueada') {
                     alert("Fallo de Validación: Esta Tarjeta Vecino se encuentra BLOQUEADA de forma preventiva.");
                     return; 
@@ -34,12 +50,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     alert("Aviso Municipal: Esta Tarjeta Vecino expiró. Por favor, regularice su situación en el portal.");
                 }
 
+                // 7. Relleno Dinámico de la Tarjeta
                 const nombreCompleto = `${dataJson.nombres} ${dataJson.apellidos}`.toUpperCase();
                 document.getElementById('card-nombre').innerText = nombreCompleto;
                 document.getElementById('card-rut').innerText = dataJson.rut;
                 document.getElementById('card-numero').innerText = dataJson.numero_tarjeta;
                 document.getElementById('card-vigencia').innerText = dataJson.vigencia;
 
+                // 8. Lógica del Código QR
                 const qrImageElement = document.getElementById('card-qr-img');
                 const prefijoBase64 = "data:image/png;base64,";
                 
@@ -50,87 +68,50 @@ document.addEventListener('DOMContentLoaded', () => {
                         qrImageElement.src = prefijoBase64 + dataJson.codigo_qr;
                     }
                 } else {
-                    console.warn("Advertencia: No se detectó la cadena Base64 'codigo_qr' en la respuesta.");
+                    console.warn("Advertencia: No se detectó la cadena Base64 'codigo_qr'.");
                 }
 
+                // 9. Animación de volteo hacia el frente
                 document.getElementById('flip-toggle').checked = false; 
 
                 if (dataJson.estado === 'activa') {
                     alert("¡Tarjeta Vecino Digital validada y generada correctamente!");
+                    
+                    // MOSTRAR EL NUEVO PANEL DASHBOARD
+                    const panelDashboard = document.getElementById('dashboard-vecino');
+                    if (panelDashboard) {
+                        panelDashboard.style.display = 'block';
+                        // Hacer un scroll suave hacia el panel para que el usuario lo vea
+                        panelDashboard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
                 }
 
             } catch (error) {
                 console.error("Detalle de la excepción de integración:", error);
-                alert("El RUT ingresado no figura registrado como vecino o el servidor local está desconectado.");
+                alert("Los datos ingresados no figuran registrados o el servidor local está desconectado.");
             }
         });
     }
 
-    const modalRegistro = document.getElementById('modal-registro');
-    const btnAbrirRegistro = document.getElementById('btn-abrir-registro');
-    const btnCerrarRegistro = document.getElementById('btn-cerrar-registro');
-    const formRegistro = document.getElementById('form-registro');
+    const tabBeneficios = document.getElementById('tab-beneficios');
+    const tabHistorial = document.getElementById('tab-historial');
+    const contentBeneficios = document.getElementById('content-beneficios');
+    const contentHistorial = document.getElementById('content-historial');
 
-    if(btnAbrirRegistro) {
-        btnAbrirRegistro.addEventListener('click', () => {
-            modalRegistro.style.display = 'flex';
+    if(tabBeneficios && tabHistorial) {
+        tabBeneficios.addEventListener('click', () => {
+            tabBeneficios.classList.add('active');
+            tabHistorial.classList.remove('active');
+            if(contentBeneficios) contentBeneficios.style.display = 'block';
+            if(contentHistorial) contentHistorial.style.display = 'none';
+        });
+
+        tabHistorial.addEventListener('click', () => {
+            tabHistorial.classList.add('active');
+            tabBeneficios.classList.remove('active');
+            if(contentHistorial) contentHistorial.style.display = 'block';
+            if(contentBeneficios) contentBeneficios.style.display = 'none';
         });
     }
 
-    if(btnCerrarRegistro) {
-        btnCerrarRegistro.addEventListener('click', () => {
-            modalRegistro.style.display = 'none';
-            formRegistro.reset(); 
-        });
-    }
-
-    window.addEventListener('click', (e) => {
-        if (e.target === modalRegistro) {
-            modalRegistro.style.display = 'none';
-            formRegistro.reset();
-        }
-    });
-
-    if(formRegistro) {
-        formRegistro.addEventListener('submit', async (e) => {
-            e.preventDefault(); 
-
-            const nuevoVecino = {
-                rut: document.getElementById('reg-rut').value.trim(),
-                nombres: document.getElementById('reg-nombres').value.trim(),
-                apellidos: document.getElementById('reg-apellidos').value.trim(),
-                telefono: document.getElementById('reg-telefono').value.trim()
-            };
-
-            try {
-                // URL de tu API para CREAR vecinos (POST)
-                const URL_POST = 'http://localhost:8000/tarjeta/crear'; 
-                
-                const respuesta = await fetch(URL_POST, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(nuevoVecino)
-                });
-
-                if (respuesta.ok) {
-                    alert("¡Solicitud enviada con éxito! Tu tarjeta ha sido generada.");
-                    
-                    modalRegistro.style.display = 'none';
-                    formRegistro.reset();
-
-                    document.getElementById('vecino-rut').value = nuevoVecino.rut;
-                    
-                } else {
-                    const errorData = await respuesta.json();
-                    alert("Hubo un error al registrar: " + (errorData.detail || "Intenta nuevamente."));
-                }
-
-            } catch (error) {
-                console.error("Error en el POST:", error);
-                alert("No se pudo conectar con el servidor. Verifica que FastAPI esté corriendo.");
-            }
-        });
-    }
 });
