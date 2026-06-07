@@ -68,25 +68,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
             }
 
-            document.getElementById('flip-toggle').checked = false;
+            document.getElementById('flip-toggle').checked = false; 
 
-            if (dataJson.estado === 'activa') {
-
-                alert("¡Tarjeta Vecino Digital validada y generada correctamente!");
+            // Si la tarjeta NO está bloqueada ni vencida, mostramos el Dashboard
+            if (dataJson.estado !== 'bloqueada' && dataJson.estado !== 'vencida') {
+                    
+                // console.log para ver qué estado llegó realmente (opcional, para depurar)
+                console.log("Estado recibido:", dataJson.estado);
 
                 const panelDashboard = document.getElementById('dashboard-vecino');
-
                 if (panelDashboard) {
-
-                    panelDashboard.style.display = 'block';
-
-                    panelDashboard.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-
+                        panelDashboard.style.display = 'block';
+                        // Hacer un scroll suave hacia el panel para que el usuario lo vea
+                        panelDashboard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
                 }
-            }
+
 
         } catch (error) {
 
