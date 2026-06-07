@@ -968,62 +968,6 @@ body.alto-contraste .section-header h2::after {
     background-color: #ff0;
 }
 
-/* =========================================
-   NUEVAS CLASES: MODAL DE BENEFICIOS Y DOBLE INPUT
-   ========================================= */
-
-.modal-intro {
-    margin-bottom: 20px;
-    font-size: 0.95rem;
-    color: #444;
-}
-
-.beneficios-list {
-    display: grid;
-    gap: 15px;
-    margin-bottom: 20px;
-}
-
-.beneficio-item {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.beneficio-icon {
-    font-size: 1.5rem;
-    color: var(--primary-blue);
-}
-
-.beneficio-title {
-    display: block;
-    color: #333;
-}
-
-.beneficio-desc {
-    font-size: 0.85rem;
-    color: #666;
-}
-
-.modal-cta {
-    background-color: #f8f9fa;
-    padding: 15px;
-    border-radius: 8px;
-    text-align: center;
-    border: 1px solid #e9ecef;
-}
-
-.modal-cta-title {
-    color: var(--primary-blue);
-    display: block;
-    margin-bottom: 5px;
-}
-
-.modal-cta-text {
-    font-size: 0.85rem;
-    color: #555;
-}
-
 /* --- DOBLE INPUT (RUT Y N° DE SERIE) --- */
 .input-row {
     display: flex;
@@ -1043,3 +987,133 @@ body.alto-contraste .section-header h2::after {
         flex-direction: column;
     }
 }
+
+.dashboard-vecino {
+    background-color: var(--white);
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.dashboard-header {
+    border-bottom: 2px solid #edf2f7;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+}
+
+.dashboard-header h2 {
+    color: var(--primary-blue);
+    margin-bottom: 15px;
+    font-size: 1.8rem;
+}
+
+.dashboard-tabs {
+    display: flex;
+    gap: 20px;
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #718096;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.tab-btn.active {
+    color: var(--primary-blue);
+    border-bottom-color: var(--secondary-yellow);
+}
+
+.tab-btn:hover {
+    color: var(--primary-blue);
+}
+
+/* Tarjetas de Beneficios (Mockup) */
+.beneficios-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+}
+
+.beneficio-item-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.beneficio-item-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    border-color: var(--secondary-yellow);
+}
+
+.beneficio-icon-wrapper {
+    width: 50px;
+    height: 50px;
+    background-color: var(--light-bg);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--primary-blue);
+}
+
+.beneficio-details .categoria {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #a0aec0;
+    letter-spacing: 0.5px;
+}
+
+.beneficio-details h4 {
+    color: var(--primary-blue);
+    font-size: 1.1rem;
+    margin: 5px 0;
+    line-height: 1.3;
+}
+
+.beneficio-details p {
+    font-size: 0.85rem;
+    color: #718096;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 2px solid var(--primary-blue);
+    color: var(--primary-blue);
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: auto; /* Empuja el botón siempre al fondo */
+}
+
+.btn-outline:hover {
+    background: var(--primary-blue);
+    color: var(--white);
+}
+
+body.dark-mode .dashboard-vecino { background-color: #16213e; }
+body.dark-mode .beneficio-item-card { border-color: #374151; }
+body.dark-mode .beneficio-icon-wrapper { background-color: #0f3460; }

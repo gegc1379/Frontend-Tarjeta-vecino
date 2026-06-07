@@ -143,12 +143,64 @@
                     <small class="input-help">Ingrese un RUT o un número de tarjeta para realizar su consulta.</small>
 
                     <button type="button" id="btn-validar" class="btn-primary">Consultar Tarjeta</button>
-                    <button type="button" id="btn-abrir-beneficios" style="background: none; border: none; color: var(--primary-blue); font-weight: bold; text-decoration: underline; cursor: pointer; margin-top: 5px;">
-                        Ver Beneficios de la Tarjeta
-                    </button>
                 </div>
 
             </div>
+        </div>
+    </section>
+
+    <section id="dashboard-vecino" class="dashboard-vecino container" style="display: none; margin-top: 40px; margin-bottom: 40px;">
+        <div class="dashboard-header">
+            <h2>Mi Portal Vecino</h2>
+            <div class="dashboard-tabs">
+                <button class="tab-btn active" id="tab-beneficios">Mis Beneficios</button>
+                <button class="tab-btn" id="tab-historial">Historial de Uso</button>
+            </div>
+        </div>
+
+        <div id="content-beneficios" class="tab-content active">
+            <div class="beneficios-grid">
+                <div class="beneficio-item-card">
+                    <div class="beneficio-icon-wrapper"><i class="fa-solid fa-briefcase-medical"></i></div>
+                    <div class="beneficio-details">
+                        <span class="categoria">Salud</span>
+                        <h4>Descuento 20% Farmacias</h4>
+                        <p><i class="fa-solid fa-location-dot"></i> Red Salud Sur</p>
+                    </div>
+                    <button class="btn-outline">Obtener Beneficio</button>
+                </div>
+                <div class="beneficio-item-card">
+                    <div class="beneficio-icon-wrapper"><i class="fa-solid fa-graduation-cap"></i></div>
+                    <div class="beneficio-details">
+                        <span class="categoria">Educación</span>
+                        <h4>Beca 15% Preuniversitario</h4>
+                        <p><i class="fa-solid fa-location-dot"></i> Instituto Nacional</p>
+                    </div>
+                    <button class="btn-outline">Obtener Beneficio</button>
+                </div>
+                <div class="beneficio-item-card">
+                    <div class="beneficio-icon-wrapper"><i class="fa-solid fa-store"></i></div>
+                    <div class="beneficio-details">
+                        <span class="categoria">Comercio</span>
+                        <h4>10% Compras Locales</h4>
+                        <p><i class="fa-solid fa-location-dot"></i> Minimarket El Sol</p>
+                    </div>
+                    <button class="btn-outline">Obtener Beneficio</button>
+                </div>
+                <div class="beneficio-item-card">
+                    <div class="beneficio-icon-wrapper"><i class="fa-solid fa-volleyball"></i></div>
+                    <div class="beneficio-details">
+                        <span class="categoria">Deporte</span>
+                        <h4>Acceso Liberado Piscina</h4>
+                        <p><i class="fa-solid fa-location-dot"></i> Polideportivo Central</p>
+                    </div>
+                    <button class="btn-outline">Obtener Beneficio</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="content-historial" class="tab-content" style="display: none;">
+            <p style="color: #666; text-align: center; padding: 40px;">Aquí construiremos la tabla del historial en el siguiente paso.</p>
         </div>
     </section>
 
@@ -386,54 +438,6 @@
             </div>
         </div>
     </footer>
-
-    <div id="modal-beneficios" class="modal-overlay">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Beneficios Tarjeta Vecino</h3>
-                <button id="btn-cerrar-beneficios" class="btn-close"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div class="modal-body">
-                <p class="modal-intro">Conoce los descuentos y servicios exclusivos para los residentes de nuestra comuna:</p>
-                
-                <div class="beneficios-list">
-                    <div class="beneficio-item">
-                        <i class="fa-solid fa-house-medical beneficio-icon"></i>
-                        <div class="beneficio-text">
-                            <strong class="beneficio-title">Salud Integral</strong>
-                            <span class="beneficio-desc">Hasta 20% de descuento en farmacias y red de salud municipal.</span>
-                        </div>
-                    </div>
-                    <div class="beneficio-item">
-                        <i class="fa-solid fa-person-swimming beneficio-icon"></i>
-                        <div class="beneficio-text">
-                            <strong class="beneficio-title">Deporte y Recreación</strong>
-                            <span class="beneficio-desc">Acceso gratuito a talleres y recintos deportivos comunales.</span>
-                        </div>
-                    </div>
-                    <div class="beneficio-item">
-                        <i class="fa-solid fa-shop beneficio-icon"></i>
-                        <div class="beneficio-text">
-                            <strong class="beneficio-title">Comercio Local</strong>
-                            <span class="beneficio-desc">Descuentos exclusivos en más de 100 locales adheridos.</span>
-                        </div>
-                    </div>
-                    <div class="beneficio-item">
-                        <i class="fa-solid fa-masks-theater beneficio-icon"></i>
-                        <div class="beneficio-text">
-                            <strong class="beneficio-title">Cultura y Artes</strong>
-                            <span class="beneficio-desc">Entradas preferenciales a teatros y eventos culturales.</span>
-                        </div>
-                    </div>
-                </div>
-    
-                <div class="modal-cta">
-                    <strong class="modal-cta-title">¿Aún no tienes tu Tarjeta Vecino?</strong>
-                    <span class="modal-cta-text">Acércate a la municipalidad o contacta al administrador vecinal para solicitar tu alta en el sistema.</span>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <script src="../js/index.js"></script>
     <script src="../js/tarjeta.js"></script>
