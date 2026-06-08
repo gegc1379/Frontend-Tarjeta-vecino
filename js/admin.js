@@ -34,7 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Formulario: Crear Tarjeta
     const formTarjeta = document.getElementById('form-crear-tarjeta');
     if (formTarjeta) {
-        formTarjeta.addEventListener('submit', (e) => {
+        // IMPORTANTE: Agregamos la palabra 'async' antes de (e) =>
+        formTarjeta.addEventListener('submit', async (e) => {
             e.preventDefault();
             
             const datosTarjeta = {
@@ -44,15 +45,46 @@ document.addEventListener('DOMContentLoaded', () => {
                 telefono: document.getElementById('tarjeta-telefono').value.trim() || null
             };
 
-            console.log("Datos listos para enviar a Backend (Tarjeta):", datosTarjeta);
-            alert("Vista de Frontend: Formulario capturado correctamente. (Falta integrar API)");
+            try {
+                // 1. URL del endpoint (Pídele esta ruta exacta a tu equipo Backend)
+                const URL_API = 'http://localhost:8000/tarjeta/crear'; 
+
+                // 2. Realizamos la petición POST
+                const respuesta = await fetch(URL_API, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                        // Nota: Si el backend pide Token de seguridad, se envía aquí.
+                    },
+                    body: JSON.stringify(datosTarjeta) // Convertimos los datos a texto JSON
+                });
+
+                // 3. Evaluamos si el Backend nos respondió con error (Ej: 400 o 500)
+                if (!respuesta.ok) {
+                    const errorData = await respuesta.json();
+                    throw new Error(errorData.detail || "Error al crear la tarjeta");
+                }
+
+                // 4. Si todo salió bien, capturamos los datos que nos devuelve el endpoint
+                const dataJson = await respuesta.json();
+
+                // 5. Mostramos éxito y limpiamos el formulario
+                alert(`¡Éxito! Tarjeta creada correctamente. \nN° de Tarjeta: ${dataJson.numero_tarjeta}`);
+                formTarjeta.reset();
+
+            } catch (error) {
+                console.error("Detalle de conexión:", error);
+                alert(`Ocurrió un error: ${error.message}`);
+            }
         });
     }
+})
 
-    // Formulario: Crear Usuario/Vecino
+// Formulario: Crear Usuario/Vecino
     const formUsuario = document.getElementById('form-crear-usuario');
     if (formUsuario) {
-        formUsuario.addEventListener('submit', (e) => {
+        // Agregamos 'async'
+        formUsuario.addEventListener('submit', async (e) => {
             e.preventDefault();
 
             const datosUsuario = {
@@ -66,9 +98,36 @@ document.addEventListener('DOMContentLoaded', () => {
                 email: document.getElementById('vecino-email').value.trim()
             };
 
-            console.log("Datos listos para enviar a Backend (Usuario):", datosUsuario);
-            alert("Vista de Frontend: Formulario capturado correctamente. (Falta integrar API)");
+            try {
+                // 1. URL del endpoint para guardar vecino
+                const URL_API = 'http://localhost:8000/vecino/crear'; 
+
+                // 2. Ejecutar Fetch
+                const respuesta = await fetch(URL_API, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(datosUsuario)
+                });
+
+                // 3. Manejo de errores de servidor
+                if (!respuesta.ok) {
+                    // Intentamos leer el mensaje de error del backend si existe
+                    const errorData = await respuesta.json().catch(() => ({})); 
+                    throw new Error(errorData.detail || "El RUT ya existe o los datos son inválidos.");
+                }
+
+                // 4. Respuesta exitosa
+                const dataJson = await respuesta.json();
+                console.log("Respuesta del servidor:", dataJson);
+
+                alert("¡Éxito! El vecino ha sido registrado en la base de datos.");
+                formUsuario.reset();
+
+            } catch (error) {
+                console.error("Detalle de conexión:", error);
+                alert(`Error de registro: ${error.message}`);
+            }
         });
     }
-
-});
