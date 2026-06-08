@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Administrador - MuniSTGO</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/login.css">
+</head>
+<body class="login-body">
+
+    <div class="login-wrapper">
+        <div class="login-side-image">
+            <div class="login-overlay">
+                <div class="login-overlay-text">
+                    <h1>MuniSTGO</h1>
+                    <p>Portal de Gestión - Tarjeta Vecino Digital</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="login-side-form">
+            <div class="login-card">
+                <div class="login-header-logo">
+                    <i class="fa-solid fa-building-flag" style="color: var(--secondary-yellow); font-size: 2.5rem;"></i>
+                    <h2>Iniciar Sesión</h2>
+                    <p>Ingresa tus credenciales municipales</p>
+                </div>
+
+                <form id="form-admin-login">
+                    <div class="input-with-icon">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" id="admin-email" placeholder="Correo electrónico" required>
+                    </div>
+
+                    <div class="input-with-icon">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="admin-password" placeholder="Contraseña" required>
+                    </div>
+
+                    <div class="login-options">
+                        <label>
+                            <input type="checkbox" id="remember-me"> Recordarme
+                        </label>
+                        <a href="#" class="forgot-pass">¿Olvidaste tu contraseña?</a>
+                    </div>
+
+                    <button type="submit" class="btn-primary btn-login">Ingresar al Sistema</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/login.js"></script>
+</body>
+</html>
