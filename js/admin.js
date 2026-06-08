@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 // 1. URL del endpoint para guardar vecino
-                const URL_API = 'http://localhost:8000/vecino/crear'; 
+                const URL_API = 'http://localhost:8000/users/crear'; 
 
                 // 2. Ejecutar Fetch
                 const respuesta = await fetch(URL_API, {
