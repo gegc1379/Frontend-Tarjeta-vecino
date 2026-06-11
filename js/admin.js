@@ -81,12 +81,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 4. FORMULARIO: CREAR USUARIO/VECINO (CON JWT) ---
+        // --- 4. FORMULARIO: CREAR USUARIO/VECINO (CON JWT) ---
     const formUsuario = document.getElementById('form-crear-usuario');
     if (formUsuario) {
         formUsuario.addEventListener('submit', async (e) => {
             e.preventDefault();
 
+            // Agregamos el serial_number capturando el nuevo input
             const datosUsuario = {
                 rut: document.getElementById('vecino-rut').value.trim(),
                 nombres: document.getElementById('vecino-nombres').value.trim(),
@@ -95,11 +96,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 direccion: document.getElementById('vecino-direccion').value.trim(),
                 numero_direccion: document.getElementById('vecino-numero').value.trim(),
                 telefono: document.getElementById('vecino-telefono').value.trim(),
-                email: document.getElementById('vecino-email').value.trim()
+                email: document.getElementById('vecino-email').value.trim(),
+                serial_number: document.getElementById('vecino-serial').value.trim() // <--- NUEVO DATO AGREGADO
             };
 
             try {
-                const URL_API = 'http://localhost:8000/users/crear'; 
+                const URL_API = 'http://localhost:8000/users/usuarios'; 
 
                 // Usamos Auth.fetchProtegido en lugar del fetch normal
                 const respuesta = await Auth.fetchProtegido(URL_API, {
