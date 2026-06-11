@@ -1,5 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    // --- 1. VERIFICACIÓN DE SEGURIDAD (JWT) ---
+    // Usamos un bloque try/catch para que si falla la validación, el menú no se rompa
+    try {
+        if (typeof Auth !== 'undefined' && !Auth.estaAutenticado()) {
+            window.location.href = 'login.html';
+            return; 
+        }
+    } catch (error) {
+        console.warn("Módulo Auth no cargado. Verifica los scripts en tu HTML.");
+    }
+
+    // --- 2. LÓGICA DEL MENÚ LATERAL (SIDEBAR) ---
     const navLinks = document.querySelectorAll('.nav-link');
     const adminSections = document.querySelectorAll('.admin-section');
 
@@ -25,16 +37,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const targetSection = document.getElementById(targetId);
             if (targetSection) {
                 targetSection.style.display = 'block';
-                // Pequeño timeout para permitir animación si la agregamos después
+                // Pequeño timeout para permitir animación suave
                 setTimeout(() => targetSection.classList.add('active-section'), 10);
             }
         });
     });
 
-    // Formulario: Crear Tarjeta
+    // --- 3. FORMULARIO: CREAR TARJETA (CON JWT) ---
     const formTarjeta = document.getElementById('form-crear-tarjeta');
     if (formTarjeta) {
-        // IMPORTANTE: Agregamos la palabra 'async' antes de (e) =>
         formTarjeta.addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -46,29 +57,20 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             try {
-                // 1. URL del endpoint (Pídele esta ruta exacta a tu equipo Backend)
                 const URL_API = 'http://localhost:8000/tarjeta/crear'; 
 
-                // 2. Realizamos la petición POST
-                const respuesta = await fetch(URL_API, {
+                // Usamos Auth.fetchProtegido en lugar del fetch normal
+                const respuesta = await Auth.fetchProtegido(URL_API, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                        // Nota: Si el backend pide Token de seguridad, se envía aquí.
-                    },
-                    body: JSON.stringify(datosTarjeta) // Convertimos los datos a texto JSON
+                    body: JSON.stringify(datosTarjeta)
                 });
 
-                // 3. Evaluamos si el Backend nos respondió con error (Ej: 400 o 500)
                 if (!respuesta.ok) {
                     const errorData = await respuesta.json();
                     throw new Error(errorData.detail || "Error al crear la tarjeta");
                 }
 
-                // 4. Si todo salió bien, capturamos los datos que nos devuelve el endpoint
                 const dataJson = await respuesta.json();
-
-                // 5. Mostramos éxito y limpiamos el formulario
                 alert(`¡Éxito! Tarjeta creada correctamente. \nN° de Tarjeta: ${dataJson.numero_tarjeta}`);
                 formTarjeta.reset();
 
@@ -78,12 +80,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-})
 
-// Formulario: Crear Usuario/Vecino
+    // --- 4. FORMULARIO: CREAR USUARIO/VECINO (CON JWT) ---
     const formUsuario = document.getElementById('form-crear-usuario');
     if (formUsuario) {
-        // Agregamos 'async'
         formUsuario.addEventListener('submit', async (e) => {
             e.preventDefault();
 
@@ -99,28 +99,18 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             try {
-                // 1. URL del endpoint para guardar vecino
                 const URL_API = 'http://localhost:8000/users/crear'; 
 
-                // 2. Ejecutar Fetch
-                const respuesta = await fetch(URL_API, {
+                // Usamos Auth.fetchProtegido en lugar del fetch normal
+                const respuesta = await Auth.fetchProtegido(URL_API, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
                     body: JSON.stringify(datosUsuario)
                 });
 
-                // 3. Manejo de errores de servidor
                 if (!respuesta.ok) {
-                    // Intentamos leer el mensaje de error del backend si existe
                     const errorData = await respuesta.json().catch(() => ({})); 
                     throw new Error(errorData.detail || "El RUT ya existe o los datos son inválidos.");
                 }
-
-                // 4. Respuesta exitosa
-                const dataJson = await respuesta.json();
-                console.log("Respuesta del servidor:", dataJson);
 
                 alert("¡Éxito! El vecino ha sido registrado en la base de datos.");
                 formUsuario.reset();
@@ -131,3 +121,19 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // --- 5. LÓGICA DE CIERRE DE SESIÓN ---
+    const btnLogout = document.querySelector('.btn-logout');
+    if (btnLogout) {
+        btnLogout.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (typeof Auth !== 'undefined') {
+                Auth.cerrarSesion();
+            } else {
+                // Respaldo por si borras el token manualmente
+                window.location.href = 'login.html';
+            }
+        });
+    }
+
+});
