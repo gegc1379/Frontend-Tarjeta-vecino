@@ -92,6 +92,66 @@ document.addEventListener('DOMContentLoaded', () => {
             alert("Los datos ingresados no figuran registrados o el servidor local está desconectado.");
 
         }
+
+    //***VALIDAR Y MOSTRAR MIS BENEFICIOS***
+    //Simular acción tab Mis Beneficios
+    const btnMisBeneficios = document.getElementById('tab-beneficios');
+    
+    if(btnMisBeneficios) {
+    btnMisBeneficios.addEventListener('click', async () => {
+    
+        async function mostrarBeneficios() {
+
+        try {
+            // Obtener Beneficios
+            URL_API = "http://localhost:8000/beneficios/";
+            const response = await fetch(URL_API);
+
+            if (!response.ok) {
+                throw new Error(`Error HTTP: ${response.status}`);
+            }
+
+            const beneficios = await response.json();
+
+            //Recorrer y mostrar beneficios
+            let indice = 0;
+            let cicloActual = 1;
+            const maxCiclos = 3; // 1 ejecución inicial + 2 repeticiones
+
+            const intervalo = setInterval(() => {
+
+                const grupo = beneficios.slice(indice, indice + 4);
+
+                grupo.forEach(elemento => {
+                    console.log(elemento);
+                });
+
+                indice += 4;
+
+                // Iniciar un nuevo ciclo
+                if (indice >= beneficios.length) {
+
+                if (cicloActual >= maxCiclos) {
+                    clearInterval(intervalo);
+                    return;
+                }
+
+                cicloActual++;
+                indice = 0;
+
+                console.log("\n--- Reiniciando listado de beneficios ---");
+                }
+            //Aumentar segs entre muestra de beneficios
+            }, 3000);
+
+        } catch (error) {
+            console.error("Error:", error.message);
+    }
+
+}
+
+    //mostrarBeneficios();
+        
     });
 }
 
