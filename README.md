@@ -2,6 +2,37 @@
 
 ¡Bienvenido al repositorio del frontend del proyecto **Tarjeta Vecino**! Esta aplicación está diseñada para ofrecer una interfaz moderna, accesible y eficiente para que los ciudadanos gestionen sus beneficios, identidades locales y servicios municipales.
 
+## 🚀 Características Principales
+
+* **Portal Vecino:**
+    * Interfaz pública responsiva con diseño adaptado a la identidad corporativa institucional.
+    * Visualización interactiva (efecto *flip card* en CSS) de la Tarjeta Vecino Digital.
+    * Consulta de vigencia y datos mediante RUT o número de tarjeta.
+    * Integración de código QR dinámico para validación en comercios adheridos.
+    * Módulos accesibles de "Mis Beneficios" y "Historial de Uso".
+* **Portal Admin:**
+    * Formulario de autenticación seguro para funcionarios municipales.
+    * Campos optimizados para gestores de contraseñas y accesibilidad (`ARIA attributes`).
+* **Accesibilidad Web (a11y):**
+    * Herramientas integradas para aumento/reducción de texto y modo de alto contraste.
+    * Estructura semántica optimizada para lectores de pantalla.
+
+## 📁 Estructura del Proyecto
+
+```text
+├── css/
+│   ├── munsan.css     # Estilos globales y del portal público
+│   └── login.css      # Estilos específicos de la interfaz de autenticación
+├── img/
+│   └── imagen_0.png   # Logotipo oficial institucional
+├── js/
+│   ├── index.js       # Control global de la interfaz y accesibilidad
+│   ├── tarjeta.js     # Lógica de consulta, volteo y renderizado de la tarjeta
+│   ├── auth.js        # Manejo de sesiones y tokens del administrador
+│   └── login.js       # Validación y captura del formulario de acceso
+└── views/
+    ├── index.html     # Portal principal y Dashboard del vecino
+    └── login.html     # Formulario de inicio de sesión de administración
 ---
 
 ## 🎨 Especificaciones de Diseño (Design System)
