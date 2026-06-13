@@ -1,3 +1,4 @@
+/* --- PALETA DE COLORES Y VARIABLES UX/UI --- */
 :root {
     --primary-blue: #072E6D;
     --secondary-yellow: #FFC107;
@@ -7,6 +8,7 @@
     --light-bg: #F5F7FA;
 }
 
+/* --- RESET GLOBAL --- */
 * {
     margin: 0;
     padding: 0;
@@ -23,7 +25,7 @@ body {
 a {
     text-decoration: none;
     color: inherit;
-    transition: color 0.3s;
+    transition: color 0.3s ease;
 }
 
 .container {
@@ -36,24 +38,35 @@ a {
     background-color: var(--light-bg);
 }
 
+/* --- ARQUITECTURA DE CONTENEDORES (GRIDS TIPO CARD MODERNO) --- */
 .section-header {
     margin-bottom: 32px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }
 
 .section-header h2 {
     color: var(--primary-blue);
     font-size: 2rem;
+    position: relative;
+    padding-bottom: 8px;
+}
+
+.section-header h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 4px;
+    background-color: var(--secondary-yellow);
+    border-radius: 2px;
 }
 
 .card {
     background-color: var(--white);
     border-radius: 16px;
     padding: 24px;
-    box-shadow: 0 8px 24px rgba(82, 89, 74, 0.08);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 8px 24px rgba(82, 89, 74, 0.06);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
 }
 
 .card:hover {
@@ -61,28 +74,42 @@ a {
     box-shadow: 0 12px 32px rgba(82, 89, 74, 0.12);
 }
 
-.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 24px; }
-.grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+.grid-3 { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); 
+    gap: 24px; 
+}
 
+.grid-4 { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+    gap: 24px; 
+}
+
+/* --- HEADER & ACCESIBILIDAD --- */
 .top-bar {
     background-color: var(--light-bg);
-    padding: 8px 0;
+    padding: 10px 0;
     font-size: 0.85rem;
+    border-bottom: 1px solid #eef1f5;
 }
 
 .top-bar-content {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .accessibility a {
     margin-left: 12px;
     color: var(--primary-blue);
+    font-weight: 600;
 }
 
 .main-header {
     background-color: var(--primary-blue);
     padding: 20px 0;
+    box-shadow: 0 4px 12px rgba(7, 46, 109, 0.15);
 }
 
 .header-content {
@@ -91,8 +118,10 @@ a {
     align-items: center;
 }
 
-.main-header h1, .main-nav a {
+.main-header h1 {
     color: var(--white);
+    font-size: 1.8rem;
+    letter-spacing: 0.5px;
 }
 
 .main-nav ul {
@@ -103,98 +132,359 @@ a {
 
 .main-nav a {
     font-weight: 600;
+    color: var(--white);
 }
 
 .main-nav a:hover {
     color: var(--secondary-yellow);
 }
 
+/* --- HERO SECTION CON INTEGRACIÓN DE IMAGEN MUNICIPAL --- */
 .hero-section {
     position: relative;
     background-image: url('../img/munstgo.jpeg');
     background-size: cover;
     background-position: center;
-    padding: 80px 0;
+    padding: 60px 0;
 }
 
 .hero-overlay {
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(7, 46, 109, 0.7);
+    background: rgba(7, 46, 109, 0.75);
 }
 
 .hero-grid {
     position: relative;
     z-index: 1;
     display: grid;
-    grid-template-columns: 1fr 400px;
+    grid-template-columns: 1fr 430px;
     gap: 40px;
     align-items: center;
 }
 
 .hero-search h2 {
     color: var(--white);
-    font-size: 2.5rem;
+    font-size: 2.8rem;
     margin-bottom: 24px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .search-box {
     display: flex;
-    border-radius: 8px;
+    border-radius: 12px;
     overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
 }
 
 .search-box input {
     flex: 1;
-    padding: 16px;
+    padding: 18px;
     border: none;
     font-size: 1rem;
+    outline: none;
 }
 
 .btn-primary, .search-box button {
     background-color: var(--secondary-yellow);
     color: var(--primary-blue);
     border: none;
-    padding: 16px 24px;
-    font-weight: bold;
+    padding: 16px 28px;
+    font-weight: 700;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: background-color 0.2s ease;
 }
 
 .btn-primary:hover, .search-box button:hover {
     background-color: var(--tertiary-yellow);
 }
 
+/* --- CAJA DEL PANEL FRONT-END DE LA TARJETA --- */
 .hero-tarjeta-vecino h3 {
     color: var(--primary-blue);
-    margin-bottom: 12px;
+    margin-bottom: 8px;
+    font-size: 1.4rem;
+}
+
+.hero-tarjeta-vecino p {
+    font-size: 0.95rem;
+    margin-bottom: 16px;
+    color: #666;
 }
 
 .rut-input-group {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    margin-top: 20px;
+    margin-top: 15px;
 }
 
 .rut-input-group input {
     padding: 14px;
-    border: 1px solid #ccc;
+    border: 1px solid #cbd5e1;
     border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.rut-input-group input:focus {
+    border-color: var(--primary-blue);
 }
 
 .rut-input-group .btn-primary {
     border-radius: 8px;
     text-align: center;
+    padding: 14px;
 }
 
-.convenios-destacados {
-    padding: 60px 20px;
+/* --- MAQUETACIÓN ESTRUCTURAL 3D DE LA CREDENCIAL (FLIP EFFECT) --- */
+.tarjeta-flip-container {
+    perspective: 1000px;
+    width: 100%;
+    margin: 10px auto;
 }
 
+.flip-checkbox {
+    display: none;
+}
+
+.tarjeta-flip-card {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1.58 / 1;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
+
+.flip-checkbox:checked + .tarjeta-flip-card {
+    transform: rotateY(180deg);
+}
+
+.tarjeta-front, .tarjeta-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* --- DISEÑO PREMIUM VISTA FRONTAL --- */
+.tarjeta-front {
+    background-color: var(--white);
+    border: 2px solid var(--secondary-yellow);
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+}
+
+.tarjeta-header {
+    background-color: var(--primary-blue);
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 4px solid var(--secondary-yellow);
+}
+
+.tarjeta-header-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    line-height: 1.1;
+}
+
+.escudo-placeholder {
+    font-size: 1.5rem;
+    color: var(--secondary-yellow);
+}
+
+.tarjeta-header-title {
+    color: var(--white);
+    font-weight: 700;
+    font-size: 1.1rem;
+    display: block;
+}
+
+.tarjeta-header-subtitle {
+    color: rgba(255,255,255,0.8);
+    font-size: 0.65rem;
+}
+
+.tarjeta-header-right {
+    text-align: right;
+    line-height: 1.1;
+}
+
+.tarjeta-header-text1 {
+    color: var(--white);
+    font-weight: 700;
+    font-size: 0.85rem;
+    display: block;
+}
+
+.tarjeta-header-text2 {
+    color: var(--secondary-yellow);
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+
+.tarjeta-body {
+    padding: 14px 16px;
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
+    background: linear-gradient(145deg, #ffffff 0%, #fdfdfd 100%);
+}
+
+.tarjeta-col-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.tarjeta-info-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tarjeta-info-row.first {
+    margin-top: 0;
+}
+
+.tarjeta-info-row-block {
+    margin-top: 4px;
+}
+
+.tarjeta-icon {
+    color: var(--primary-blue);
+    font-size: 1.3rem;
+}
+
+.tarjeta-icon.large {
+    font-size: 1.6rem;
+}
+
+.tarjeta-label {
+    display: block;
+    font-size: 0.72rem;
+    color: #718096;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.tarjeta-value {
+    font-size: 1.05rem;
+    color: #1a202c;
+    font-weight: 700;
+}
+
+.tarjeta-value.name {
+    font-size: 0.95rem;
+    line-height: 1.1;
+    display: block;
+    max-width: 190px;
+}
+
+.tarjeta-col-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.tarjeta-qr-img {
+    width: 85px;
+    height: 85px;
+    object-fit: contain;
+    border: 1px solid #e2e8f0;
+    padding: 4px;
+    border-radius: 6px;
+    background: var(--white);
+}
+
+.tarjeta-vigencia-box {
+    text-align: right;
+}
+
+/* --- DISEÑO INTERNO VISTA REVERSO --- */
+.tarjeta-back {
+    transform: rotateY(180deg);
+    background-color: #111827;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 2px solid #374151;
+}
+
+.tarjeta-back-content h5 {
+    color: var(--secondary-yellow);
+    font-size: 1rem;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #374151;
+    padding-bottom: 4px;
+}
+
+.tarjeta-back-content ul {
+    list-style: none;
+}
+
+.tarjeta-back-content li {
+    color: #9ca3af;
+    font-size: 0.75rem;
+    margin-bottom: 5px;
+    position: relative;
+    padding-left: 12px;
+}
+
+.tarjeta-back-content li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--secondary-yellow);
+}
+
+.tarjeta-back-footer {
+    text-align: center;
+    border-top: 1px solid #374151;
+    padding-top: 8px;
+}
+
+.tarjeta-back-footer span {
+    color: #6b7280;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+}
+
+.hint-flip {
+    position: absolute;
+    bottom: 8px;
+    right: 12px;
+    background: rgba(0, 0, 0, 0.7);
+    color: var(--white);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+}
+
+/* --- SECCIÓN SEGUIDA: BENEFICIOS Y CONVENIOS --- */
 .beneficio-card {
     text-align: center;
     position: relative;
+    margin-top: 15px;
 }
 
 .beneficio-badge {
@@ -206,18 +496,20 @@ a {
     color: var(--primary-blue);
     padding: 6px 16px;
     border-radius: 20px;
-    font-weight: bold;
-    font-size: 0.9rem;
+    font-weight: 700;
+    font-size: 0.85rem;
     white-space: nowrap;
+    box-shadow: 0 4px 10px rgba(255, 193, 7, 0.3);
 }
 
 .icon-large {
-    font-size: 3rem;
+    font-size: 2.8rem;
     color: var(--primary-blue);
     margin-top: 10px;
     margin-bottom: 16px;
 }
 
+/* --- ACCESOS RÁPIDOS MUNICIPALES --- */
 .accesos-rapidos {
     padding: 60px 0;
 }
@@ -233,32 +525,40 @@ a {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 24px 16px;
-    gap: 12px;
+    padding: 20px 14px;
+    gap: 10px;
     font-weight: 600;
+    border-radius: 12px;
 }
 
 .acceso-card i {
-    font-size: 2rem;
+    font-size: 1.8rem;
     color: var(--tertiary-yellow);
+    transition: color 0.2s;
 }
 
 .acceso-card:hover i {
     color: var(--primary-blue);
 }
 
+.acceso-card span {
+    font-size: 0.9rem;
+}
+
+/* --- PORTAL TRÁMITES COLUMNAS --- */
 .portal-tramites {
-    padding: 60px 20px;
+    padding: 60px 0;
 }
 
 .column-card h3 {
     color: var(--primary-blue);
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     border-bottom: 2px solid var(--secondary-yellow);
-    padding-bottom: 12px;
+    padding-bottom: 10px;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
+    font-size: 1.1rem;
 }
 
 .clean-list {
@@ -266,21 +566,23 @@ a {
 }
 
 .clean-list li {
-    margin-bottom: 12px;
+    margin-bottom: 4px;
 }
 
 .clean-list a {
     display: block;
     padding: 8px 0;
-    border-bottom: 1px solid #eee;
-    font-size: 0.95rem;
+    border-bottom: 1px solid #edf2f7;
+    font-size: 0.9rem;
 }
 
 .clean-list a:hover {
     color: var(--primary-blue);
-    padding-left: 8px;
+    padding-left: 6px;
+    border-bottom-color: var(--primary-blue);
 }
 
+/* --- NOTICIAS --- */
 .noticias {
     padding: 60px 0;
 }
@@ -290,78 +592,50 @@ a {
     overflow: hidden;
 }
 
-.news-card img {
+.image-container-fallback {
     width: 100%;
-    height: 200px;
-    object-fit: cover;
+    height: 160px;
+    background-color: #e2e8f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-container-fallback i {
+    font-size: 3rem;
+    color: #a0aec0;
 }
 
 .news-content {
-    padding: 24px;
+    padding: 20px;
 }
 
 .news-date {
     display: block;
-    font-size: 0.85rem;
-    color: #888;
-    margin-bottom: 8px;
+    font-size: 0.8rem;
+    color: #a0aec0;
+    margin-bottom: 6px;
+    font-weight: 600;
 }
 
 .news-content h4 {
     color: var(--primary-blue);
+    font-size: 0.95rem;
+    line-height: 1.4;
 }
 
-.canales-digitales {
-    padding: 60px 20px;
-}
-
-.btn-secondary {
-    background-color: var(--primary-blue);
-    color: var(--white);
-    border: none;
-    padding: 12px 24px;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-left: 12px;
-    font-weight: 600;
-}
-
-.btn-secondary:hover {
-    background-color: var(--tertiary-yellow);
-    color: var(--primary-blue);
-}
-
-.gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 16px;
-    margin-top: 24px;
-}
-
-.gallery-grid img {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    transition: transform 0.3s;
-}
-
-.gallery-grid img:hover {
-    transform: scale(1.05);
-}
-
+/* --- MEGA FOOTER --- */
 .mega-footer {
     background-color: var(--primary-blue);
-    color: var(--white);
-    padding: 60px 0 40px;
-    margin-top: 40px;
+    padding: 60px 0 30px;
 }
 
 .footer-column h4 {
     color: var(--secondary-yellow);
-    margin-bottom: 24px;
-    font-size: 1.2rem;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    border-left: 3px solid var(--secondary-yellow);
+    padding-left: 8px;
 }
 
 .footer-column ul {
@@ -369,10 +643,10 @@ a {
 }
 
 .footer-column a {
-    color: #CBD5E1;
+    color: #e2e8f0;
     display: block;
-    margin-bottom: 12px;
-    font-size: 0.9rem;
+    margin-bottom: 10px;
+    font-size: 0.85rem;
 }
 
 .footer-column a:hover {
@@ -380,28 +654,466 @@ a {
     text-decoration: underline;
 }
 
+.social-networks h4 {
+    border: none;
+    padding: 0;
+    color: var(--white);
+    font-size: 1rem;
+    margin-top: 20px;
+}
+
 .social-icons {
     display: flex;
-    gap: 16px;
-    margin-top: 16px;
+    gap: 14px;
+    margin-top: 12px;
 }
 
 .social-icons i {
     color: var(--white);
-    font-size: 1.5rem;
-    transition: color 0.3s;
+    font-size: 1.4rem;
 }
 
 .social-icons i:hover {
     color: var(--secondary-yellow);
 }
 
-@media (max-width: 992px) {
-    .hero-grid { grid-template-columns: 1fr; }
-    .grid-3, .grid-4 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+.mt-4 { margin-top: 16px; }
+
+/* --- MODAL DE REGISTRO / GENERAL --- */
+.modal-overlay {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(7, 46, 109, 0.85); /* Azul institucional transparente */
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(4px);
+}
+
+.modal-content {
+    background: var(--white);
+    width: 90%;
+    max-width: 450px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-header {
+    background: var(--primary-blue);
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h3 {
+    color: var(--secondary-yellow);
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.btn-close {
+    background: none;
+    border: none;
+    color: var(--white);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.btn-close:hover { color: var(--secondary-yellow); }
+
+.modal-body { padding: 24px; }
+
+.form-group {
+    margin-bottom: 16px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--primary-blue);
+    margin-bottom: 6px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus { border-color: var(--primary-blue); }
+
+/* --- SECCIÓN RESPONSIVE --- */
+@media (max-width: 1200px) {
+    .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    .hero-search {
+        text-align: center;
+    }
+    .search-box {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    .hero-tarjeta-vecino {
+        max-width: 450px;
+        margin: 0 auto;
+    }
 }
 
 @media (max-width: 768px) {
-    .main-nav { display: none; }
-    .top-bar-content { flex-direction: column; align-items: center; gap: 8px; }
+    .main-nav {
+        display: none;
+    }
+    .top-bar-content {
+        flex-direction: column;
+        gap: 6px;
+        text-align: center;
+    }
+    .hero-search h2 {
+        font-size: 2rem;
+    }
 }
+
+/* =====================================================
+   PARCHE CSS - Agregar al final de munsan.css
+   Cubre: dark-mode, alto-contraste, nav-toggle móvil,
+   botones de accesibilidad, scroll-top e imágenes noticias
+   ===================================================== */
+
+/* --- BOTONES DE ACCESIBILIDAD (top-bar) --- */
+.accessibility button {
+    background: none;
+    border: 1px solid var(--primary-blue);
+    border-radius: 6px;
+    padding: 4px 10px;
+    margin-left: 8px;
+    color: var(--primary-blue);
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+.accessibility button:hover {
+    background: var(--primary-blue);
+    color: var(--white);
+}
+.accessibility button[aria-pressed="true"] {
+    background: var(--primary-blue);
+    color: var(--white);
+}
+
+/* --- MENÚ HAMBURGUESA MÓVIL --- */
+.nav-toggle-btn {
+    display: none;
+    background: none;
+    border: 2px solid var(--white);
+    color: var(--white);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.nav-toggle-btn:hover {
+    background: rgba(255,255,255,0.15);
+}
+
+@media (max-width: 768px) {
+    .nav-toggle-btn {
+        display: block;
+    }
+    .main-nav {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--primary-blue);
+        z-index: 100;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+    .main-nav.open {
+        display: block;
+    }
+    .main-nav ul {
+        flex-direction: column;
+        gap: 0;
+        padding: 10px 20px;
+    }
+    .main-nav ul li {
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .main-nav ul li:last-child {
+        border-bottom: none;
+    }
+    .main-nav a {
+        display: block;
+        padding: 12px 0;
+    }
+    .main-header {
+        position: relative;
+    }
+}
+
+/* --- BOTÓN SCROLL TOP --- */
+.scroll-top-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 48px;
+    height: 48px;
+    background: var(--primary-blue);
+    color: var(--white);
+    border: none;
+    border-radius: 50%;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(7,46,109,0.3);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s, transform 0.2s;
+    z-index: 999;
+}
+.scroll-top-btn.visible {
+    opacity: 1;
+    visibility: visible;
+}
+.scroll-top-btn:hover {
+    transform: translateY(-3px);
+}
+
+/* --- IMÁGENES DE NOTICIAS --- */
+.news-img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    display: block;
+    border-radius: 16px 16px 0 0;
+}
+
+/* --- MODO OSCURO --- */
+body.dark-mode {
+    background-color: #1a1a2e;
+    color: #e2e8f0;
+}
+body.dark-mode .card,
+body.dark-mode .column-card {
+    background-color: #16213e;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+body.dark-mode .bg-light {
+    background-color: #0f3460;
+}
+body.dark-mode .section-header h2,
+body.dark-mode .news-content h4,
+body.dark-mode .clean-list a {
+    color: var(--secondary-yellow);
+}
+body.dark-mode .top-bar {
+    background-color: #16213e;
+    border-bottom-color: #0f3460;
+}
+body.dark-mode * {
+    color: #e2e8f0;
+}
+body.dark-mode .btn-primary {
+    background: var(--secondary-yellow);
+    color: var(--primary-blue);
+}
+
+/* --- ALTO CONTRASTE --- */
+body.alto-contraste {
+    background-color: #000 !important;
+    color: #fff !important;
+}
+body.alto-contraste * {
+    color: #fff !important;
+    background-color: #000 !important;
+    border-color: #fff !important;
+}
+body.alto-contraste .card,
+body.alto-contraste .column-card {
+    border: 2px solid #fff !important;
+}
+body.alto-contraste a,
+body.alto-contraste button {
+    color: #ff0 !important;
+    text-decoration: underline !important;
+}
+body.alto-contraste .main-header,
+body.alto-contraste .mega-footer,
+body.alto-contraste .tarjeta-front,
+body.alto-contraste .tarjeta-back {
+    background-color: #000 !important;
+    border: 2px solid #fff !important;
+}
+body.alto-contraste .section-header h2::after {
+    background-color: #ff0;
+}
+
+/* --- DOBLE INPUT (RUT Y N° DE SERIE) --- */
+.input-row {
+    display: flex;
+    gap: 10px;
+    width: 100%; /* Fuerza a la fila a respetar el límite de la tarjeta */
+}
+
+.input-row input {
+    flex: 1; 
+    min-width: 0; /* LA MAGIA: Permite que el input se encoja para caber en la fila */
+    width: 100%;
+}
+
+/* Responsividad para móviles: apila los inputs si la pantalla es muy pequeña */
+@media (max-width: 480px) {
+    .input-row {
+        flex-direction: column;
+    }
+}
+
+.dashboard-vecino {
+    background-color: var(--white);
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.dashboard-header {
+    border-bottom: 2px solid #edf2f7;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+}
+
+.dashboard-header h2 {
+    color: var(--primary-blue);
+    margin-bottom: 15px;
+    font-size: 1.8rem;
+}
+
+.dashboard-tabs {
+    display: flex;
+    gap: 20px;
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #718096;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.tab-btn.active {
+    color: var(--primary-blue);
+    border-bottom-color: var(--secondary-yellow);
+}
+
+.tab-btn:hover {
+    color: var(--primary-blue);
+}
+
+/* Tarjetas de Beneficios (Mockup) */
+.beneficios-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+}
+
+.beneficio-item-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.beneficio-item-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    border-color: var(--secondary-yellow);
+}
+
+.beneficio-icon-wrapper {
+    width: 50px;
+    height: 50px;
+    background-color: var(--light-bg);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--primary-blue);
+}
+
+.beneficio-details .categoria {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #a0aec0;
+    letter-spacing: 0.5px;
+}
+
+.beneficio-details h4 {
+    color: var(--primary-blue);
+    font-size: 1.1rem;
+    margin: 5px 0;
+    line-height: 1.3;
+}
+
+.beneficio-details p {
+    font-size: 0.85rem;
+    color: #718096;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 2px solid var(--primary-blue);
+    color: var(--primary-blue);
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: auto; /* Empuja el botón siempre al fondo */
+}
+
+.btn-outline:hover {
+    background: var(--primary-blue);
+    color: var(--white);
+}
+
+body.dark-mode .dashboard-vecino { background-color: #16213e; }
+body.dark-mode .beneficio-item-card { border-color: #374151; }
+body.dark-mode .beneficio-icon-wrapper { background-color: #0f3460; }
