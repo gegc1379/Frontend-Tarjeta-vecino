@@ -83,10 +83,4 @@ cd Frontend-Tarjeta-vecino
 ```
 
 
-### Servidor de Desarrollo
 
-Para levantar el entorno de desarrollo local corre el siguiente comando:
-```bash
-npm run dev
-# o si usas yarn
-yarn dev
