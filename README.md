@@ -69,7 +69,7 @@ Sigue estas instrucciones para clonar e instalar el proyecto en tu entorno local
 
 Asegúrate de tener instalado lo siguiente:
 * [Node.js](https://nodejs.org/) (Versión recomendada LTS)
-* [npm](https://www.npmjs.com/) o [Yarn](https://yarnpkg.com/)
+
 
 ### Instalación
 
@@ -81,12 +81,7 @@ git clone [https://github.com/gegc1379/Frontend-Tarjeta-vecino.git](https://gith
 ```bash
 cd Frontend-Tarjeta-vecino
 ```
-3. **Instala las dependencias:**
-```bash
-npm install
-# o si usas yarn
-yarn install
-```
+
 
 ### Servidor de Desarrollo
 
