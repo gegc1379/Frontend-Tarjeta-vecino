@@ -121,9 +121,35 @@ document.addEventListener('DOMContentLoaded', () => {
             const intervalo = setInterval(() => {
 
                 const grupo = beneficios.slice(indice, indice + 4);
+                
+                const grid = document.getElementById("beneficios-grid");
+                grid.innerHTML = "";
 
-                grupo.forEach(elemento => {
-                    console.log(elemento);
+                grupo.forEach(beneficio => {
+                    const card = document.createElement("div");
+                    card.className = "beneficio-item-card";
+                    // Inserción íconos y datos consulta API
+                    //Line 137: <i class="fa-solid ${beneficio.icono}"></i>
+                    card.innerHTML = `
+                        <div class="beneficio-icon-wrapper"> 
+                            <i class="fa-solid ${beneficio.nombre}"></i>
+                        </div>
+
+                        <div class="beneficio-details">
+                            <span class="categoria">${beneficio.nombre}</span>
+                            <h4>${beneficio.descripcion}</h4>
+                            <p>
+                                <i class="fa-solid fa-location-dot"></i>
+                                ${beneficio.comercio}
+                            </p>
+                        </div>
+
+                        <button class="btn-outline">
+                            Obtener Beneficio
+                        </button>
+               `;
+
+                grid.appendChild(card);
                 });
 
                 indice += 4;
