@@ -75,6 +75,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             document.getElementById('flip-toggle').checked = false; 
 
+
+
             // Si la tarjeta NO está bloqueada ni vencida, mostramos el Dashboard
             if (dataJson.estado !== 'bloqueada' && dataJson.estado !== 'vencida') {
                     
@@ -84,6 +86,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 const panelDashboard = document.getElementById('dashboard-vecino');
                 if (panelDashboard) {
                         panelDashboard.style.display = 'block';
+                        const tarjetaContainer = document.querySelector('.tarjeta-flip-container');
+                if (tarjetaContainer) {
+                 tarjetaContainer.classList.remove('d-none');
+                }
                         // Hacer un scroll suave hacia el panel para que el usuario lo vea
                         panelDashboard.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     }
