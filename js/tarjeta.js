@@ -51,6 +51,11 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('card-numero').innerText = dataJson.numero_tarjeta;
             document.getElementById('card-vigencia').innerText = dataJson.vigencia;
 
+            const tarjetaContainer = document.getElementById('tarjeta-vecino-container');
+            if (tarjetaContainer) {
+                tarjetaContainer.style.display = 'block';
+            }
+
             const qrImageElement = document.getElementById('card-qr-img');
             const prefijoBase64 = "data:image/png;base64,";
 
