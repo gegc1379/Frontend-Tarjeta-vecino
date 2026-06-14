@@ -1117,3 +1117,7 @@ body.alto-contraste .section-header h2::after {
 body.dark-mode .dashboard-vecino { background-color: #16213e; }
 body.dark-mode .beneficio-item-card { border-color: #374151; }
 body.dark-mode .beneficio-icon-wrapper { background-color: #0f3460; }
+
+.d-none {
+    display: none !important;
+}
