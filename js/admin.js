@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- 1. VERIFICACIÓN DE SEGURIDAD (JWT) ---
     // Usamos un bloque try/catch para que si falla la validación, el menú no se rompa
     try {
         if (typeof Auth !== 'undefined' && !Auth.estaAutenticado()) {
@@ -11,13 +10,12 @@ document.addEventListener('DOMContentLoaded', () => {
         console.warn("Módulo Auth no cargado. Verifica los scripts en tu HTML.");
     }
 
-    // --- 2. LÓGICA DEL MENÚ LATERAL (SIDEBAR) ---
     const navLinks = document.querySelectorAll('.nav-link');
     const adminSections = document.querySelectorAll('.admin-section');
 
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
-            e.preventDefault(); // Evitamos que salte el scroll hacia arriba
+            e.preventDefault();
 
             // Quitamos la clase 'active' de todos los links
             navLinks.forEach(l => l.classList.remove('active'));
@@ -43,7 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- 3. FORMULARIO: CREAR TARJETA (CON JWT) ---
     const formTarjeta = document.getElementById('form-crear-tarjeta');
     if (formTarjeta) {
         formTarjeta.addEventListener('submit', async (e) => {
@@ -81,7 +78,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-        // --- 4. FORMULARIO: CREAR USUARIO/VECINO (CON JWT) ---
     const formUsuario = document.getElementById('form-crear-usuario');
     if (formUsuario) {
         formUsuario.addEventListener('submit', async (e) => {
@@ -97,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 numero_direccion: document.getElementById('vecino-numero').value.trim(),
                 telefono: document.getElementById('vecino-telefono').value.trim(),
                 email: document.getElementById('vecino-email').value.trim(),
-                serial_number: document.getElementById('vecino-serial').value.trim() // <--- NUEVO DATO AGREGADO
+                serial_number: document.getElementById('vecino-serial').value.trim()
             };
 
             try {
@@ -124,7 +120,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 5. LÓGICA DE CIERRE DE SESIÓN ---
     const btnLogout = document.querySelector('.btn-logout');
     if (btnLogout) {
         btnLogout.addEventListener('click', (e) => {
