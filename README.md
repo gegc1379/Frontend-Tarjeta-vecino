@@ -1,6 +1,6 @@
 # Frontend - Tarjeta Vecino 💳🏡
 
-¡Bienvenido al repositorio del frontend del proyecto **Tarjeta Vecino**! Esta aplicación está diseñada para ofrecer una interfaz moderna, accesible y eficiente para que los ciudadanos gestionen sus beneficios, identidades locales y servicios municipales.
+¡Bienvenido al repositorio del frontend del proyecto **Tarjeta Vecino*! Esta aplicación está diseñada para ofrecer una interfaz moderna, accesible y eficiente para que los ciudadanos gestionen sus beneficios, identidades locales y servicios municipales.
 
 ## 🚀 Características Principales
 
