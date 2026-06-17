@@ -1,119 +1,111 @@
-document.addEventListener('DOMContentLoaded', () => {
-
-    const btnValidar = document.getElementById('btn-validar');
+document.addEventListener("DOMContentLoaded", () => {
     
-    if(btnValidar) {
-    btnValidar.addEventListener('click', async () => {
+    // ==========================================
+    // 1. SISTEMA DE AUTENTICACIÓN (FRONTEND)
+    // ==========================================
+    const btnValidar = document.getElementById("btn-validar");
+    const inputRut = document.getElementById("vecino-rut");
+    const inputSerie = document.getElementById("vecino-serie");
+    
+    const tarjetaContainer = document.getElementById("tarjeta-vecino-container");
+    const dashboardVecino = document.getElementById("dashboard-vecino");
+    const inputGroup = document.querySelector(".rut-input-group");
 
-        const rutInput = document.getElementById('vecino-rut').value.trim();
-        const serieInput = document.getElementById('vecino-serie').value.trim();
+    // Datos simulados del usuario de prueba
+    const USUARIO_PRUEBA = {
+        rut: "12345678-9",
+        serie: "2026",
+        nombre: "Constanza Silva Ossa",
+        numeroTarjeta: "STGO-9948271",
+        vigencia: "31/12/2027",
+        qrUrl: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=STGO-9948271"
+    };
 
-        if (!rutInput && !serieInput) {
-            alert("Por favor, ingresa tu RUT o el Número de Tarjeta para validar.");
-            return;
-        }
+    btnValidar.addEventListener("click", () => {
+        const rutIngresado = inputRut.value.trim();
+        const serieIngresada = inputSerie.value.trim();
 
-        try {
+        if (rutIngresado === USUARIO_PRUEBA.rut && serieIngresada === USUARIO_PRUEBA.serie) {
+            // Rellenar datos en la tarjeta
+            document.getElementById("card-nombre").textContent = USUARIO_PRUEBA.nombre;
+            document.getElementById("card-rut").textContent = USUARIO_PRUEBA.rut;
+            document.getElementById("card-numero").textContent = USUARIO_PRUEBA.numeroTarjeta;
+            document.getElementById("card-vigencia").textContent = USUARIO_PRUEBA.vigencia;
+            document.getElementById("card-qr-img").src = USUARIO_PRUEBA.qrUrl;
 
-            const params = new URLSearchParams();
-
-            if (rutInput) {
-                params.append("rut", rutInput);
-            }
-
-            if (serieInput) {
-                params.append("numero_tarjeta", serieInput);
-            }
-
-            const URL_API = `http://localhost:8000/tarjeta/buscar?${params.toString()}`;
-
-            const respuesta = await fetch(URL_API, {
-                method: 'GET'
-            });
-
-            if (!respuesta.ok) {
-                throw new Error("Vecino no registrado o credenciales inválidas.");
-            }
-
-            const dataJson = await respuesta.json();
-
-            if (dataJson.estado === 'bloqueada') {
-                alert("Fallo de Validación: Esta Tarjeta Vecino se encuentra BLOQUEADA de forma preventiva.");
-                return;
-            } else if (dataJson.estado === 'vencida') {
-                alert("Aviso Municipal: Esta Tarjeta Vecino expiró. Por favor, regularice su situación en el portal.");
-            }
-
-            const nombreCompleto = `${dataJson.nombres} ${dataJson.apellidos}`.toUpperCase();
-
-            document.getElementById('card-nombre').innerText = nombreCompleto;
-            document.getElementById('card-rut').innerText = dataJson.rut;
-            document.getElementById('card-numero').innerText = dataJson.numero_tarjeta;
-            document.getElementById('card-vigencia').innerText = dataJson.vigencia;
-
-            const qrImageElement = document.getElementById('card-qr-img');
-            const prefijoBase64 = "data:image/png;base64,";
-
-            if (dataJson.codigo_qr) {
-
-                if (dataJson.codigo_qr.startsWith("data:image")) {
-                    qrImageElement.src = dataJson.codigo_qr;
-                } else {
-                    qrImageElement.src = prefijoBase64 + dataJson.codigo_qr;
-                }
-
-            } else {
-
-                console.warn("Advertencia: No se detectó la cadena Base64 'codigo_qr'.");
-
-            }
-
-            document.getElementById('flip-toggle').checked = false; 
-
-            // Si la tarjeta NO está bloqueada ni vencida, mostramos el Dashboard
-            if (dataJson.estado !== 'bloqueada' && dataJson.estado !== 'vencida') {
-                    
-                // console.log para ver qué estado llegó realmente (opcional, para depurar)
-                console.log("Estado recibido:", dataJson.estado);
-
-                const panelDashboard = document.getElementById('dashboard-vecino');
-                if (panelDashboard) {
-                        panelDashboard.style.display = 'block';
-                        // Hacer un scroll suave hacia el panel para que el usuario lo vea
-                        panelDashboard.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
-                }
-
-
-        } catch (error) {
-
-            console.error("Detalle de la excepción de integración:", error);
-
-            alert("Los datos ingresados no figuran registrados o el servidor local está desconectado.");
-
+            // Transiciones de interfaz
+            inputGroup.style.display = "none";
+            tarjetaContainer.style.display = "block";
+            dashboardVecino.style.display = "block";
+            
+            // Desplazar suavemente hasta el panel recién activado
+            dashboardVecino.scrollIntoView({ behavior: "smooth" });
+        } else {
+            alert("Credenciales incorrectas.\nUse el usuario de prueba:\nRUT: 12345678-9\nN° Tarjeta: 2026");
         }
     });
-}
 
-    const tabBeneficios = document.getElementById('tab-beneficios');
-    const tabHistorial = document.getElementById('tab-historial');
-    const contentBeneficios = document.getElementById('content-beneficios');
-    const contentHistorial = document.getElementById('content-historial');
+    // ==========================================
+    // 2. CONMUTADOR DE PESTAÑAS (TABS)
+    // ==========================================
+    const tabBeneficios = document.getElementById("tab-beneficios");
+    const tabHistorial = document.getElementById("tab-historial");
+    const contentBeneficios = document.getElementById("content-beneficios");
+    const contentHistorial = document.getElementById("content-historial");
 
-    if(tabBeneficios && tabHistorial) {
-        tabBeneficios.addEventListener('click', () => {
-            tabBeneficios.classList.add('active');
-            tabHistorial.classList.remove('active');
-            if(contentBeneficios) contentBeneficios.style.display = 'block';
-            if(contentHistorial) contentHistorial.style.display = 'none';
+    tabBeneficios.addEventListener("click", () => {
+        tabBeneficios.classList.add("active");
+        tabHistorial.classList.remove("active");
+        contentBeneficios.style.display = "block";
+        contentHistorial.style.display = "none";
+    });
+
+    tabHistorial.addEventListener("click", () => {
+        tabHistorial.classList.add("active");
+        tabBeneficios.classList.remove("active");
+        contentHistorial.style.display = "block";
+        contentBeneficios.style.display = "none";
+    });
+
+    // ==========================================
+    // 3. CIFRADO Y VISIBILIDAD DE CÓDIGOS
+    // ==========================================
+    const toggleButtons = document.querySelectorAll(".btn-toggle-codigo");
+
+    toggleButtons.forEach(button => {
+        const codigoSpan = button.previousElementSibling;
+        const codigoOriginal = codigoSpan.getAttribute("data-codigo");
+        
+        // Cifrado inicial: Toma las 4 primeras letras y añade asteriscos
+        const visibleLength = 4;
+        const mascara = codigoOriginal.substring(0, visibleLength) + "-*****";
+        
+        // Configuración por defecto
+        codigoSpan.textContent = mascara;
+        codigoSpan.setAttribute("data-visible", "false");
+
+        button.addEventListener("click", (e) => {
+            // Evitar cualquier comportamiento secundario
+            e.preventDefault();
+            
+            const isVisible = codigoSpan.getAttribute("data-visible") === "true";
+            const icon = button.querySelector("i");
+
+            if (isVisible) {
+                // Volver a ocultar/cifrar
+                codigoSpan.textContent = mascara;
+                codigoSpan.setAttribute("data-visible", "false");
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+                button.style.color = "#64748b";
+            } else {
+                // Mostrar código completo
+                codigoSpan.textContent = codigoOriginal;
+                codigoSpan.setAttribute("data-visible", "true");
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+                button.style.color = "#0284c7"; // Resaltado azul municipal
+            }
         });
-
-        tabHistorial.addEventListener('click', () => {
-            tabHistorial.classList.add('active');
-            tabBeneficios.classList.remove('active');
-            if(contentHistorial) contentHistorial.style.display = 'block';
-            if(contentBeneficios) contentBeneficios.style.display = 'none';
-        });
-    }
-
+    });
 });
