@@ -64,7 +64,7 @@
                 <h3>Tarjeta Vecino Digital</h3>
                 <p>Consulta tu Tarjeta Vecino Digital ingresando RUT o número de tarjeta.</p>
 
-                <div class="tarjeta-flip-container">
+                <div class="tarjeta-flip-container" id="tarjeta-vecino-container" style="display: none;">
                     <input type="checkbox" id="flip-toggle" class="flip-checkbox">
                     <label for="flip-toggle" class="tarjeta-flip-card">
 
@@ -202,7 +202,42 @@
         </div>
 
         <div id="content-historial" class="tab-content" style="display: none;">
-            <p style="color: #666; text-align: center; padding: 40px;">Aquí construiremos la tabla del historial en el siguiente paso.</p>
+            <div class="table-container" style="overflow-x: auto; margin-top: 20px; background: #fff; border-radius: 8px; border: 1px solid #e2e8f0;">
+                <table class="historial-table" style="width: 100%; border-collapse: collapse; text-align: left;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid #cbd5e1; color: #334155; background-color: #f8fafc;">
+                            <th style="padding: 14px 16px; font-weight: 600;">Fecha</th>
+                            <th style="padding: 14px 16px; font-weight: 600;">Beneficio</th>
+                            <th style="padding: 14px 16px; font-weight: 600;">Comercio / Institución</th>
+                            <th style="padding: 14px 16px; font-weight: 600;">Código de Canje</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid #e2e8f0;">
+                            <td style="padding: 14px 16px;">10/05/2026</td>
+                            <td style="padding: 14px 16px;">Descuento 20% Farmacias</td>
+                            <td style="padding: 14px 16px;">Red Salud Sur</td>
+                            <td style="padding: 14px 16px; display: flex; align-items: center;">
+                                <span class="codigo-beneficio" data-codigo="SALUD-77492-X" style="font-family: monospace; font-size: 1.1rem; font-weight: 600;"></span>
+                                <button class="btn-toggle-codigo" style="background: none; border: none; cursor: pointer; margin-left: 10px; color: #64748b; font-size: 1rem;">
+                                    <i class="fa-solid fa-eye"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #e2e8f0;">
+                            <td style="padding: 14px 16px;">28/04/2026</td>
+                            <td style="padding: 14px 16px;">10% Compras Locales</td>
+                            <td style="padding: 14px 16px;">Minimarket El Sol</td>
+                            <td style="padding: 14px 16px; display: flex; align-items: center;">
+                                <span class="codigo-beneficio" data-codigo="COMER-11023-M" style="font-family: monospace; font-size: 1.1rem; font-weight: 600;"></span>
+                                <button class="btn-toggle-codigo" style="background: none; border: none; cursor: pointer; margin-left: 10px; color: #64748b; font-size: 1rem;">
+                                    <i class="fa-solid fa-eye"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </section>
 
