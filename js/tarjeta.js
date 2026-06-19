@@ -2,7 +2,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const btnValidar = document.getElementById('btn-validar');
     const contentBeneficios = document.getElementById('content-beneficios');
+    
     let beneficiosCargados = false;
+    let idPersonaActiva = null; 
 
     async function cargarBeneficios() {
         if (beneficiosCargados) return;
@@ -51,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <h4>${elemento.nombre || elemento.titulo}</h4>
                                 <p><i class="fa-solid fa-tag"></i> ${elemento.descripcion}</p>
                             </div>
-                            <button class="btn-outline">Obtener Beneficio</button>
+                            <button class="btn-outline btn-canjear" data-id="${elemento.id_beneficio}">Obtener Beneficio</button>
                         </div>
                     `;
                     grid.insertAdjacentHTML('beforeend', cardHTML);
@@ -68,6 +70,63 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    async function cargarHistorial() {
+        if (!idPersonaActiva) return; 
+
+        const tbody = document.getElementById('tabla-historial-body');
+        const mensajeVacio = document.getElementById('mensaje-historial-vacio');
+        
+        if (!tbody || !mensajeVacio) return;
+
+        try {
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Cargando tu historial...</td></tr>';
+            
+            const params = new URLSearchParams();
+            params.append("id_persona", idPersonaActiva);
+
+            const URL_HISTORIAL = `http://127.0.0.1:8000/beneficios/historial/${idPersonaActiva}`;
+            const respuesta = await fetch(URL_HISTORIAL, { 
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (!respuesta.ok) throw new Error("Error al obtener el historial");
+
+            const historial = await respuesta.json();
+            tbody.innerHTML = ''; 
+
+            if (historial.length === 0) {
+                mensajeVacio.style.display = 'block';
+                return;
+            }
+
+            mensajeVacio.style.display = 'none';
+
+            historial.forEach(item => {
+                // Formateamos la fecha que viene del backend
+                const fechaFormateada = new Date(item.fecha_uso).toLocaleDateString('es-CL');
+
+                // Inyectamos los NUEVOS nombres de las variables:
+                // item.beneficio y item.codigo_canje
+                const filaHTML = `
+                    <tr>
+                        <td><strong>${fechaFormateada}</strong></td>
+                        <td>${item.beneficio}</td>
+                        <td><span class="categoria">CÓDIGO: ${item.codigo_canje}</span></td>
+                        <td><span style="color: #28a745; font-weight: bold;"><i class="fa-solid fa-check"></i> Canjeado</span></td>
+                    </tr>
+                `;
+                tbody.insertAdjacentHTML('beforeend', filaHTML);
+            });
+
+        } catch (error) {
+            console.error("Error cargando historial:", error);
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:red;">Hubo un problema cargando tu historial.</td></tr>';
+        }
+    }
+
     if(btnValidar) {
         btnValidar.addEventListener('click', async () => {
 
@@ -80,17 +139,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             try {
+                // Volvimos al método original que sí te funcionaba perfectamente
                 const params = new URLSearchParams();
+                if (rutInput) params.append("rut", rutInput);
+                if (serieInput) params.append("numero_tarjeta", serieInput);
 
-                if (rutInput) {
-                    params.append("rut", rutInput);
-                }
+                const URL_API = `http://127.0.0.1:8000/tarjeta/buscar?${params.toString()}`;
 
-                if (serieInput) {
-                    params.append("numero_tarjeta", serieInput);
-                }
-
-                const URL_API = `http://localhost:8000/tarjeta/buscar?${params.toString()}`;
                 const respuesta = await fetch(URL_API, {
                     method: 'GET'
                 });
@@ -100,6 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 const dataJson = await respuesta.json();
+                
                 if (dataJson.estado === 'bloqueada') {
                     alert("Fallo de Validación: Esta Tarjeta Vecino se encuentra BLOQUEADA de forma preventiva.");
                     return;
@@ -107,10 +163,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     alert("Aviso Municipal: Esta Tarjeta Vecino expiró. Por favor, regularice su situación en el portal.");
                 }
 
+                // Guardamos el ID en memoria
+                idPersonaActiva = dataJson.id_persona || dataJson.id_vecino;
+
                 const nombreCompleto = `${dataJson.nombres} ${dataJson.apellidos}`.toUpperCase();
                 document.getElementById('card-nombre').innerText = nombreCompleto;
                 document.getElementById('card-rut').innerText = dataJson.rut;
                 document.getElementById('card-numero').innerText = dataJson.numero_tarjeta;
+                
+                // NOTA: Si en Python cambiaste "vigencia" por "fecha_vencimiento", ajústalo aquí abajo. 
+                // Si dejaste la opción A (recomendada) en Python, esto se queda igual:
                 document.getElementById('card-vigencia').innerText = dataJson.vigencia;
 
                 const tarjetaContainer = document.getElementById('tarjeta-vecino-container');
@@ -122,26 +184,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 const prefijoBase64 = "data:image/png;base64,";
 
                 if (dataJson.codigo_qr) {
-
                     if (dataJson.codigo_qr.startsWith("data:image")) {
                         qrImageElement.src = dataJson.codigo_qr;
                     } else {
                         qrImageElement.src = prefijoBase64 + dataJson.codigo_qr;
                     }
-
                 } else {
                     console.warn("Advertencia: No se detectó la cadena Base64 'codigo_qr'.");
                 }
 
                 document.getElementById('flip-toggle').checked = false; 
+                
                 if (dataJson.estado !== 'bloqueada' && dataJson.estado !== 'vencida') {                        
                     console.log("Estado recibido:", dataJson.estado);
                     const panelDashboard = document.getElementById('dashboard-vecino');
                     if (panelDashboard) {
                         panelDashboard.style.display = 'block';
-                        const tarjetaContainer = document.querySelector('.tarjeta-flip-container');
-                        if (tarjetaContainer) {
-                            tarjetaContainer.classList.remove('d-none');
+                        const tarjetaContainerFlip = document.querySelector('.tarjeta-flip-container');
+                        if (tarjetaContainerFlip) {
+                            tarjetaContainerFlip.classList.remove('d-none');
                         }
                         panelDashboard.scrollIntoView({ behavior: 'smooth', block: 'start' });                        
                         await cargarBeneficios(); 
@@ -151,6 +212,58 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (error) {
                 console.error("Detalle de la excepción de integración:", error);
                 alert("Los datos ingresados no figuran registrados o el servidor local está desconectado.");
+            }
+        });
+    }
+
+    if (contentBeneficios) {
+        contentBeneficios.addEventListener('click', async (e) => {
+            
+            if (e.target.classList.contains('btn-canjear')) {
+                const boton = e.target;
+                const idBeneficioA_Canjear = boton.getAttribute('data-id');
+
+                if (!idPersonaActiva) {
+                    alert("No se pudo identificar tu sesión. Por favor, vuelve a validar tu tarjeta.");
+                    return;
+                }
+
+                const confirmacion = confirm("¿Deseas canjear este beneficio ahora?");
+                if (!confirmacion) return;
+
+                try {
+                    boton.innerText = "Procesando...";
+                    boton.disabled = true;
+
+                    // NUEVO CÓDIGO: Enviamos los datos por la URL como Query Params (No body)
+                    const params = new URLSearchParams();
+                    params.append("id_persona", idPersonaActiva);
+                    params.append("id_beneficio", idBeneficioA_Canjear);
+
+                    const URL_REGISTRAR = `http://127.0.0.1:8000/beneficios/canjear?${params.toString()}`;
+
+                    const respuestaPOST = await fetch(URL_REGISTRAR, {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+
+                    if (!respuestaPOST.ok) {
+                        throw new Error(`Error al registrar: ${respuestaPOST.status}`);
+                    }
+
+                    alert("¡Beneficio registrado exitosamente en tu historial!");
+                    boton.innerText = "¡Canjeado!";
+                    boton.style.backgroundColor = "#28a745"; // Verde de éxito
+                    boton.style.color = "white";
+
+                } catch (error) {
+                    console.error("Error al registrar beneficio:", error);
+                    alert("Hubo un problema de conexión. El beneficio no pudo ser registrado.");
+                    boton.innerText = "Obtener Beneficio";
+                    boton.disabled = false;
+                }
             }
         });
     }
@@ -172,6 +285,8 @@ document.addEventListener('DOMContentLoaded', () => {
             tabBeneficios.classList.remove('active');
             if(contentHistorial) contentHistorial.style.display = 'block';
             if(contentBeneficios) contentBeneficios.style.display = 'none';
+            
+            cargarHistorial(); // Refresca los datos del historial al abrir la pestaña
         });
     }
 

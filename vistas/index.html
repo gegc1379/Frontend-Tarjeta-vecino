@@ -151,7 +151,7 @@
         </div>
     </section>
 
- <section id="dashboard-vecino" class="dashboard-vecino container" style="display: none; margin-top: 40px; margin-bottom: 40px;">
+<section id="dashboard-vecino" class="dashboard-vecino container" style="display: none; margin-top: 40px; margin-bottom: 40px;">
         <div class="dashboard-header">
             <h2>Mi Portal Vecino</h2>
             <div class="dashboard-tabs">
@@ -164,7 +164,24 @@
             </div>
 
         <div id="content-historial" class="tab-content" style="display: none;">
-            <p style="color: #666; text-align: center; padding: 40px;">Aquí construiremos la tabla del historial en el siguiente paso.</p>
+            <div class="table-responsive">
+                <table class="table-admin">
+                    <thead>
+                        <tr>
+                            <th>Fecha de Uso</th>
+                            <th>Beneficio</th>
+                            <th>Comercio</th>
+                            <th>Descuento</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-historial-body">
+                        </tbody>
+                </table>
+            </div>
+            
+            <p id="mensaje-historial-vacio" style="text-align: center; margin-top: 20px; display: none; color: #666;">
+                Aún no has utilizado ningún beneficio.
+            </p>
         </div>
     </section>
 
