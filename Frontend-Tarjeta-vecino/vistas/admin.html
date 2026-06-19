@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración | MuniSTGO</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/administrador.css">
+</head>
+<body class="admin-body">
+
+    <div class="admin-wrapper">
+        
+        <aside class="admin-sidebar">
+            <div class="sidebar-logo">
+                <i class="fa-solid fa-building-flag"></i>
+                <h2><img src="../img/imagen_0.png" alt="Logo" style="height: 30px; width: auto;"></h2>
+                <span>Portal Administrativo</span>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#" class="nav-link active" data-target="seccion-inicio"><i class="fa-solid fa-house"></i> Inicio</a></li>
+                </ul>
+
+                <p class="nav-title">Gestión de Tarjetas</p>
+                <ul>
+                    <li><a href="#" class="nav-link" data-target="seccion-crear-tarjeta"><i class="fa-solid fa-id-card"></i> Crear Tarjeta Vecino</a></li>
+                    <li><a href="#" class="nav-link" data-target="seccion-lista-tarjetas"><i class="fa-solid fa-list-check"></i> Listado de Tarjetas</a></li>
+                </ul>
+
+                <p class="nav-title">Gestión de Vecinos</p>
+                <ul>
+                    <li><a href="#" class="nav-link" data-target="seccion-crear-usuario"><i class="fa-solid fa-user-plus"></i> Crear Usuario/Vecino</a></li>
+                    <li><a href="#" class="nav-link" data-target="seccion-lista-usuarios"><i class="fa-solid fa-users"></i> Directorio de Vecinos</a></li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="login.html" class="btn-logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Cerrar Sesión</a>
+            </div>
+        </aside>
+
+        <main class="admin-main">
+            
+            <header class="main-header-admin">
+                <div class="header-search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Buscar por RUT o Nombre...">
+                </div>
+                <div class="header-user">
+                    <span class="user-role">Administrador Sistema</span>
+                    <div class="user-avatar"><i class="fa-solid fa-user-tie"></i></div>
+                </div>
+            </header>
+
+            <div class="content-area">
+
+                <section class="admin-section active-section" id="seccion-inicio">
+                    <div class="section-intro">
+                        <h2>Panel de Administración</h2>
+                        <p>Bienvenido al portal de gestión municipal</p>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon blue"><i class="fa-solid fa-users"></i></div>
+                            <div class="stat-info">
+                                <span class="stat-title">Usuarios Registrados</span>
+                                <strong class="stat-value">1,245</strong>
+                                <span class="stat-desc"><i class="fa-solid fa-arrow-trend-up"></i> +12% este mes</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon green"><i class="fa-solid fa-id-card"></i></div>
+                            <div class="stat-info">
+                                <span class="stat-title">Tarjetas Activas</span>
+                                <strong class="stat-value">856</strong>
+                                <span class="stat-desc"><i class="fa-solid fa-arrow-trend-up"></i> +5% este mes</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon yellow"><i class="fa-solid fa-gift"></i></div>
+                            <div class="stat-info">
+                                <span class="stat-title">Beneficios Activos</span>
+                                <strong class="stat-value">42</strong>
+                                <span class="stat-desc text-muted">Nuevos convenios</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon red"><i class="fa-solid fa-file-signature"></i></div>
+                            <div class="stat-info">
+                                <span class="stat-title">Consultas Hoy</span>
+                                <strong class="stat-value">128</strong>
+                                <span class="stat-desc text-muted">En tiempo real</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="admin-section" id="seccion-crear-tarjeta" style="display: none;">
+                    <div class="admin-card">
+                        <div class="card-header">
+                            <div class="card-icon"><i class="fa-solid fa-id-card"></i></div>
+                            <div>
+                                <h3>Generar Nueva Tarjeta Vecino</h3>
+                                <p>Complete los datos para emitir una nueva credencial digital.</p>
+                            </div>
+                        </div>
+
+                        <form class="admin-form" id="form-crear-tarjeta">
+                            <div class="form-grid-2">
+                                <div class="input-group">
+                                    <label for="tarjeta-rut">RUT del Vecino <span class="required">*</span></label>
+                                    <input type="text" id="tarjeta-rut" placeholder="Ej: 12345678-9" required>
+                                </div>
+                                <div class="input-group">
+                                    <label for="tarjeta-telefono">Teléfono (Opcional)</label>
+                                    <input type="tel" id="tarjeta-telefono" placeholder="Ej: +56 9 1234 5678">
+                                </div>
+                                <div class="input-group">
+                                    <label for="tarjeta-nombres">Nombres <span class="required">*</span></label>
+                                    <input type="text" id="tarjeta-nombres" placeholder="Ingrese nombres" required>
+                                </div>
+                                <div class="input-group">
+                                    <label for="tarjeta-apellidos">Apellidos <span class="required">*</span></label>
+                                    <input type="text" id="tarjeta-apellidos" placeholder="Ingrese apellidos" required>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn-secondary">Cancelar</button>
+                                <button type="submit" class="btn-primary"><i class="fa-solid fa-save"></i> Generar Tarjeta</button>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+
+                <section class="admin-section" id="seccion-crear-usuario" style="display: none;">
+                    <div class="admin-card">
+                        <div class="card-header">
+                            <div class="card-icon"><i class="fa-solid fa-user-plus"></i></div>
+                            <div>
+                                <h3>Registrar Nuevo Usuario/Vecino</h3>
+                                <p>Inscripción de un nuevo residente en la base de datos municipal.</p>
+                            </div>
+                        </div>
+
+                        <form class="admin-form" id="form-crear-usuario">
+                            <div class="form-grid-2">
+                                <div class="input-group">
+                                    <label for="vecino-rut">RUT <span class="required">*</span></label>
+                                    <input type="text" id="vecino-rut" placeholder="Ej: 12345678-9" required>
+                                </div>
+                                <div class="input-group">
+                                    <label for="vecino-fecha-nac">Fecha de Nacimiento <span class="required">*</span></label>
+                                    <input type="date" id="vecino-fecha-nac" required>
+                                </div>
+                                <div class="input-group">
+                                    <label for="vecino-nombres">Nombres <span class="required">*</span></label>
+                                    <input type="text" id="vecino-nombres" placeholder="Ingrese nombres" required>
+                                </div>
+                                <div class="input-group">
+                                    <label for="vecino-apellidos">Apellidos <span class="required">*</span></label>
+                                    <input type="text" id="vecino-apellidos" placeholder="Ingrese apellidos" required>
+                                </div>
+                            </div>
+
+                            <hr class="form-divider">
+
+                            <div class="form-grid-2">
+                                <div class="input-group span-2">
+                                    <label for="vecino-direccion">Dirección de Residencia <span class="required">*</span></label>
+                                    <input type="text" id="vecino-direccion" placeholder="Calle, Avenida, Pasaje..." required>
+                                </div>
+                                <div class="input-group">
+                                    <label for="vecino-numero">Número de Dirección <span class="required">*</span></label>
+                                    <input type="text" id="vecino-numero" placeholder="Ej: 1234" required>
+                                </div>
+                                <div class="input-group">
+                                    <label for="vecino-telefono">Teléfono de Contacto <span class="required">*</span></label>
+                                    <input type="tel" id="vecino-telefono" placeholder="Ej: +56 9 1234 5678" required>
+                                </div>
+                                
+                                <div class="input-group">
+                                    <label for="vecino-email">Correo Electrónico <span class="required">*</span></label>
+                                    <input type="email" id="vecino-email" placeholder="ejemplo@correo.com" required>
+                                </div>
+                                
+                                <div class="input-group">
+                                    <label for="vecino-serial">Número de Serie <span class="required">*</span></label>
+                                    <input type="text" id="vecino-serial" placeholder="Ej: SN-123456" required>
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="button" class="btn-secondary">Limpiar Formulario</button>
+                                <button type="submit" class="btn-primary"><i class="fa-solid fa-user-check"></i> Registrar Vecino</button>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+
+                <section class="admin-section" id="seccion-lista-tarjetas" style="display: none;">
+                    <h2>Listado de Tarjetas</h2><p>Módulo en construcción...</p>
+                </section>
+                <section class="admin-section" id="seccion-lista-usuarios" style="display: none;">
+                    <h2>Directorio de Vecinos</h2><p>Módulo en construcción...</p>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/admin.js"></script>
+</body>
+</html>

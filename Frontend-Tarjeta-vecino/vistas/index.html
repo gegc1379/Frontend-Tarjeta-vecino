@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ilustre Municipalidad de Santiago</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/munsan.css">
+</head>
+<body>
+
+    <div class="top-bar">
+        <div class="container top-bar-content">
+            <div class="accessibility">
+                <span>Accesibilidad:</span>
+                <button id="btn-aumentar" style="background:none;border:none;cursor:pointer;"><i class="fa-solid fa-plus"></i> Aumentar texto</button>
+                <button id="btn-reducir" style="background:none;border:none;cursor:pointer;margin-left:10px;"><i class="fa-solid fa-minus"></i> Reducir texto</button>
+                <button id="btn-contraste" style="background:none;border:none;cursor:pointer;margin-left:10px;"><i class="fa-solid fa-circle-half-stroke"></i> Alto contraste</button>
+            </div>
+            <div class="contact-phones">
+                <i class="fa-solid fa-phone"></i> 800 203 011 | <i class="fa-brands fa-whatsapp"></i> +569 78597199
+                <span style="margin: 0 10px; color: #cbd5e1;">|</span>
+                <a href="login.html" style="font-weight: 600; color: var(--primary-blue); text-decoration: none;"><i class="fa-solid fa-user-gear"></i> Portal Admin</a>
+            </div>
+        </div>
+    </div>
+
+    <header class="main-header">
+        <div class="container header-content">
+            <div class="logo">
+                <h1><img src="../img/imagen_0.png" alt="Logo"></h1>
+            </div>
+            <nav class="main-nav" id="main-nav">
+                <ul>
+                    <li><a href="https://www.munistgo.cl/la-comuna/" class="nav-link">La Comuna</a></li>
+                    <li><a href="https://www.munistgo.cl/transparencia/" class="nav-link">La Municipalidad</a></li>
+                    <li><a href="https://www.munistgo.cl/tramites-municipales/" class="nav-link">Trámites</a></li>
+                    <li><a href="https://www.munistgo.cl/servicios-municipales/" class="nav-link">Servicios</a></li>
+                    <li><a href="https://www.munistgo.cl/medio-ambiente/" class="nav-link">Territorio y Verde</a></li>
+                    <li><a href="https://www.munistgo.cl/noticias/" class="nav-link">Noticias</a></li>
+                </ul>
+            </nav>
+            <button id="nav-toggle" aria-label="Abrir menú" aria-expanded="false" style="display:none;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <section class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="container hero-grid">
+            <div class="hero-search">
+                <h2>¿Qué trámite buscas hoy?</h2>
+                <div class="search-box">
+                    <input type="text" placeholder="Ej: Pago Permiso de Circulación...">
+                    <button><i class="fa-solid fa-magnifying-glass"></i> Buscar</button>
+                </div>
+            </div>
+
+            <div class="hero-tarjeta-vecino card">
+                <h3>Tarjeta Vecino Digital</h3>
+                <p>Consulta tu Tarjeta Vecino Digital ingresando RUT o número de tarjeta.</p>
+
+                <div class="tarjeta-flip-container" id="tarjeta-vecino-container" style="display: none;">
+                    <input type="checkbox" id="flip-toggle" class="flip-checkbox">
+                    <label for="flip-toggle" class="tarjeta-flip-card">
+
+                        <div class="tarjeta-front">
+                            <div class="tarjeta-header">
+                                <div class="tarjeta-header-logo">
+                                    <div class="escudo-placeholder"><i class="fa-solid fa-building-flag"></i></div>
+                                    <div>
+                                        <span class="tarjeta-header-title"><img src="../img/imagen_0.png" alt="Logo" style="height: 24px; width: auto;"></span>
+                                        <span class="tarjeta-header-subtitle">Santiago Emprende</span>
+                                    </div>
+                                </div>
+                                <div class="tarjeta-header-right">
+                                    <span class="tarjeta-header-text1">TARJETA VECINO DIGITAL</span>
+                                    <span class="tarjeta-header-text2">SANTIAGO.</span>
+                                </div>
+                            </div>
+
+                            <div class="tarjeta-body">
+                                <div class="tarjeta-col-left">
+                                    <div class="tarjeta-info-row first">
+                                        <i class="fa-solid fa-circle-user tarjeta-icon large"></i>
+                                        <div>
+                                            <span class="tarjeta-label">Nombre</span>
+                                            <strong id="card-nombre" class="tarjeta-value name">...</strong>
+                                        </div>
+                                    </div>
+
+                                    <div class="tarjeta-info-row">
+                                        <i class="fa-solid fa-id-card tarjeta-icon"></i>
+                                        <div>
+                                            <span class="tarjeta-label">RUT</span>
+                                            <strong id="card-rut" class="tarjeta-value">...</strong>
+                                        </div>
+                                    </div>
+
+                                    <div class="tarjeta-info-row-block">
+                                        <span class="tarjeta-label">Número de Tarjeta</span>
+                                        <strong id="card-numero" class="tarjeta-value">...</strong>
+                                    </div>
+                                </div>
+
+                                <div class="tarjeta-col-right">
+                                    <img id="card-qr-img" src="" alt="QR Vecino" class="tarjeta-qr-img">
+                                    <div class="tarjeta-vigencia-box">
+                                        <span class="tarjeta-label"><i class="fa-solid fa-calendar-days"></i> Vigencia</span>
+                                        <strong id="card-vigencia" class="tarjeta-value">...</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="hint-flip"><i class="fa-solid fa-rotate"></i> Haz clic para ver el reverso</div>
+                        </div>
+
+                        <div class="tarjeta-back">
+                            <div class="tarjeta-back-content">
+                                <h5>Condiciones de Uso</h5>
+                                <ul>
+                                    <li>Esta tarjeta es personal e intransferible.</li>
+                                    <li>Válida solo en comercios adheridos de la comuna.</li>
+                                    <li>Presentar junto a la Cédula de Identidad.</li>
+                                </ul>
+                                <div class="tarjeta-back-footer">
+                                    <span>Ilustre Municipalidad de Santiago</span>
+                                </div>
+                            </div>
+                            <div class="hint-flip"><i class="fa-solid fa-rotate"></i> Haz clic para ver el frente</div>
+                        </div>
+
+                    </label>
+                </div>
+
+                <div class="rut-input-group">
+                    <div class="input-row">
+                        <input type="text" id="vecino-rut" placeholder="Tu RUT (Ej: 12345678-9)">
+                        <input type="text" id="vecino-serie" placeholder="N° de Tarjeta">
+                    </div>
+
+                    <small class="input-help">Ingrese un RUT o un número de tarjeta para realizar su consulta.</small>
+
+                    <button type="button" id="btn-validar" class="btn-primary">Consultar Tarjeta</button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+<section id="dashboard-vecino" class="dashboard-vecino container" style="display: none; margin-top: 40px; margin-bottom: 40px;">
+    <div class="dashboard-header">
+        <h2 style="text-transform: uppercase; color: #072E6D; font-weight: 800; margin-bottom: 15px;">Dashboard del Vecino</h2>
+        <div class="dashboard-tabs">
+            <button class="tab-btn active" id="tab-beneficios">Beneficios</button>
+            <button class="tab-btn" id="tab-historial">Historial de Uso</button>
+        </div>
+    </div>
+
+    <div id="content-beneficios" class="tab-content active">
+        </div>
+
+    <div id="content-historial" class="tab-content" style="display: none;">
+        <div class="historial-container">
+            <table class="historial-table" id="tabla-historial">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Comercio</th>
+                        <th>Beneficio</th>
+                        <th>Descuento</th>
+                        <th>Código</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-historial-body">
+                    </tbody>
+            </table>
+            
+            <p id="mensaje-historial-vacio" style="text-align: center; margin-top: 20px; display: none; color: #666; font-size: 1.1rem;">
+                Aún no has utilizado ningún beneficio.
+            </p>
+        </div>
+    </div>
+</section>
+
+    <section class="convenios-destacados container">
+        <div class="section-header">
+            <h2>Convenios Destacados Tarjeta Vecino</h2>
+        </div>
+        <div class="grid-4">
+            <div class="card beneficio-card">
+                <div class="beneficio-badge">Hasta $6.000</div>
+                <i class="fa-solid fa-fire-burner icon-large"></i>
+                <h4>Gas Licuado</h4>
+                <p>Descuentos directos en cilindros Abastible y beneficios en Gasco y Lipigas vía AMUCH.</p>
+            </div>
+            <div class="card beneficio-card">
+                <div class="beneficio-badge">Hasta 25% DCTO</div>
+                <i class="fa-solid fa-mobile-screen-button icon-large"></i>
+                <h4>App Mi Stgo</h4>
+                <p>Más de 37 beneficios en salud, gastronomía, librerías, cultura y mascotas.</p>
+            </div>
+            <div class="card beneficio-card">
+                <div class="beneficio-badge">$15 a $25 DCTO</div>
+                <i class="fa-solid fa-gas-pump icon-large"></i>
+                <h4>Combustible Petrobras</h4>
+                <p>Rebajas por litro en gasolina y parafina durante los días lunes y martes.</p>
+            </div>
+            <div class="card beneficio-card">
+                <div class="beneficio-badge">0% Interés</div>
+                <i class="fa-solid fa-car icon-large"></i>
+                <h4>Permiso de Circulación</h4>
+                <p>Pago de 3 a 12 cuotas sin interés pagando con tarjetas Lider Bci y Cencosud.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="accesos-rapidos bg-light">
+        <div class="container">
+            <div class="section-header">
+                <h2>Quiero información de...</h2>
+            </div>
+            <div class="grid-accesos">
+                <a href="https://www.munistgo.cl/alcaldesa/" class="card acceso-card"><i class="fa-solid fa-user-tie"></i> <span>Alcalde de Santiago</span></a>
+                <a href="https://www.munistgo.cl/seguridad-santiago/" class="card acceso-card"><i class="fa-solid fa-shield-halved"></i> <span>Seguridad</span></a>
+                <a href="https://www.munistgo.cl/juzgados-de-policia-local/" class="card acceso-card"><i class="fa-solid fa-scale-balanced"></i> <span>Juzgados</span></a>
+                <a href="https://www.munistgo.cl/emergencias/" class="card acceso-card"><i class="fa-solid fa-truck-medical"></i> <span>Emergencias</span></a>
+                <a href="https://www.munistgo.cl/salud/" class="card acceso-card"><i class="fa-solid fa-syringe"></i> <span>Vacunas</span></a>
+                <a href="https://www.munistgo.cl/concejo-municipal/" class="card acceso-card"><i class="fa-solid fa-users-viewfinder"></i> <span>Concejo Municipal</span></a>
+                <a href="https://www.munistgo.cl/cosoc/" class="card acceso-card"><i class="fa-solid fa-people-group"></i> <span>COSOC</span></a>
+                <a href="https://www.munistgo.cl/botica-comunitaria/" class="card acceso-card"><i class="fa-solid fa-prescription-bottle-medical"></i> <span>Boticas</span></a>
+                <a href="https://www.munistgo.cl/plan-regulador/" class="card acceso-card"><i class="fa-solid fa-map-location-dot"></i> <span>Plan Regulador</span></a>
+                <a href="https://www.munistgo.cl/bus-vecinal/" class="card acceso-card"><i class="fa-solid fa-bus"></i> <span>Bus Vecinal</span></a>
+                <a href="https://www.munistgo.cl/higene-ambiental-mascotas/" class="card acceso-card"><i class="fa-solid fa-paw"></i> <span>Mascotas</span></a>
+                <a href="https://www.munistgo.cl/aseo/" class="card acceso-card"><i class="fa-solid fa-trash-can"></i> <span>Aseo</span></a>
+                <a href="https://www.munistgo.cl/espacio-publico/" class="card acceso-card"><i class="fa-solid fa-tree-city"></i> <span>Espacio Público</span></a>
+                <a href="https://www.munistgo.cl/patentes-comerciales/" class="card acceso-card"><i class="fa-solid fa-shop"></i> <span>Comercio BNUP</span></a>
+                <a href="https://www.munistgo.cl/ferias-libres/" class="card acceso-card"><i class="fa-solid fa-store"></i> <span>Ferias</span></a>
+                <a href="https://www.munistgo.cl/direccion-de-obras-municipales/" class="card acceso-card"><i class="fa-solid fa-person-digging"></i> <span>Dir. de Obras</span></a>
+                <a href="https://www.munistgo.cl/oficina-municipal-de-intermediacion-laboral-omil/" class="card acceso-card"><i class="fa-solid fa-briefcase"></i> <span>Empleo</span></a>
+                <a href="https://www.munistgo.cl/medio-ambiente/" class="card acceso-card"><i class="fa-solid fa-leaf"></i> <span>Verde Urbano</span></a>
+                <a href="https://www.munistgo.cl/subvenciones/" class="card acceso-card"><i class="fa-solid fa-hand-holding-dollar"></i> <span>Fondos Concursables</span></a>
+                <a href="https://www.munistgo.cl/medio-ambiente/" class="card acceso-card"><i class="fa-solid fa-seedling"></i> <span>Medio Ambiente</span></a>
+                <a href="https://www.munistgo.cl" class="card acceso-card"><i class="fa-solid fa-faucet-drip"></i> <span>Fuente Alemana</span></a>
+                <a href="https://www.munistgo.cl/cuenta-publica/" class="card acceso-card"><i class="fa-solid fa-file-invoice"></i> <span>Cuenta Pública 2025</span></a>
+            </div>
+        </div>
+    </section>
+
+    <section class="portal-tramites container">
+        <div class="section-header">
+            <h2>Portal de Trámites</h2>
+        </div>
+        <div class="grid-3">
+            <div class="card column-card">
+                <h3><i class="fa-regular fa-credit-card"></i> PAGOS EN LÍNEA</h3>
+                <ul class="clean-list">
+                    <li><a href="https://www.munistgo.cl/pagos-en-linea/">PAGOS DE VENTANILLA ÚNICA</a></li>
+                    <li><a href="https://www.munistgo.cl/permiso-de-circulacion/">PAGO PERMISO DE CIRCULACIÓN</a></li>
+                    <li><a href="https://www.munistgo.cl/juzgados-de-policia-local/">Pago Causas Juzgado Policía Local</a></li>
+                    <li><a href="https://www.munistgo.cl/juzgados-de-policia-local/">Multas por Restricción Vehicular</a></li>
+                    <li><a href="https://www.munistgo.cl/juzgados-de-policia-local/">Multas TAG</a></li>
+                    <li><a href="https://www.munistgo.cl/juzgados-de-policia-local/">Multas por uso Vias Exclusivas</a></li>
+                    <li><a href="https://www.munistgo.cl/aseo/">Aseo Domiciliario</a></li>
+                    <li><a href="https://www.munistgo.cl/aseo/">Cubicaciones, escombros y cachureos</a></li>
+                    <li><a href="https://www.munistgo.cl/aseo/">Aseo Extraordinario Mensual</a></li>
+                    <li><a href="https://www.munistgo.cl/patentes-comerciales/">Patentes Municipales</a></li>
+                    <li><a href="https://www.munistgo.cl/patentes-comerciales/">Permisos, Arriendos y Concesiones</a></li>
+                    <li><a href="https://www.munistgo.cl/pagos-en-linea/">Pago de Convenios</a></li>
+                </ul>
+            </div>
+
+            <div class="card column-card">
+                <h3><i class="fa-regular fa-folder-open"></i> SOLICITUDES</h3>
+                <ul class="clean-list">
+                    <li><a href="https://www.munistgo.cl/patentes-comerciales/">NUEVO – Portal Trámite de Patentes</a></li>
+                    <li><a href="https://www.munistgo.cl/reserva-de-horas/">RESERVA DE HORAS ATENCIÓN VENTANILLA</a></li>
+                    <li><a href="https://www.munistgo.cl/licencias-de-conducir/">RESERVA HORAS LICENCIAS DE CONDUCIR</a></li>
+                    <li><a href="https://www.munistgo.cl/juzgados-de-policia-local/">Consulta de Causas Juzgados de Policia Local</a></li>
+                    <li><a href="https://www.munistgo.cl/tramites-municipales/">VENTANILLA única DIGITAL de trámites municipales</a></li>
+                    <li><a href="https://www.munistgo.cl/direccion-de-obras-municipales/">permisos de OBRAS</a></li>
+                    <li><a href="https://www.munistgo.cl/transparencia/">Certificado de Rentas</a></li>
+                    <li><a href="https://www.munistgo.cl/direccion-de-obras-municipales/">Certificado de Obras</a></li>
+                    <li><a href="https://www.munistgo.cl/transparencia/">Certificado de Inversiones</a></li>
+                    <li><a href="https://www.munistgo.cl/patentes-comerciales/">Renovación Patentes de Alcohol</a></li>
+                    <li><a href="https://www.munistgo.cl/patentes-comerciales/">Cert. Distr. Capital Propio para municipios</a></li>
+                    <li><a href="https://www.munistgo.cl/oficina-municipal-de-intermediacion-laboral-omil/">Declaración de Trabajadores y Sucursales</a></li>
+                    <li><a href="https://www.munistgo.cl/patentes-comerciales/">Registro de Rubros Turísticos</a></li>
+                    <li><a href="https://www.munistgo.cl/participacion-ciudadana/">Trámites Online Ley 20.500</a></li>
+                    <li><a href="https://www.munistgo.cl/patentes-comerciales/">Rebaja de Inversiones</a></li>
+                    <li><a href="https://www.munistgo.cl/patentes-comerciales/">Reliquidación Patente Municipal</a></li>
+                    <li><a href="https://www.munistgo.cl/espacio-publico/">USO DE ESPACIOS PÚBLICOS</a></li>
+                    <li><a href="https://www.munistgo.cl/patentes-comerciales/">COMERCIO EN BNUP</a></li>
+                    <li><a href="https://www.munistgo.cl/botica-comunitaria/">Botíca Comunitaria</a></li>
+                    <li><a href="https://www.munistgo.cl/bus-vecinal/">Reserva de Estacionamiento</a></li>
+                </ul>
+            </div>
+
+            <div class="card column-card">
+                <h3><i class="fa-solid fa-check-double"></i> VERIFICACIÓN EN LÍNEA</h3>
+                <ul class="clean-list">
+                    <li><a href="https://www.munistgo.cl/tramites-municipales/">verif. Alzamiento de Clausura</a></li>
+                    <li><a href="https://www.munistgo.cl/permiso-de-circulacion/">val. Permiso de Circulación y Otros</a></li>
+                    <li><a href="https://www.munistgo.cl/transparencia/">verif. Certificados de Inversión</a></li>
+                    <li><a href="https://www.munistgo.cl/patentes-comerciales/">Cert. Distr. Capital Propio</a></li>
+                    <li><a href="https://www.munistgo.cl/transparencia/">verif. Certificados de Renta</a></li>
+                    <li><a href="https://www.munistgo.cl/direccion-de-obras-municipales/">verif. Certificados de Obras</a></li>
+                    <li><a href="https://www.munistgo.cl/licencias-de-conducir/">verif. Licencias de Conducir</a></li>
+                    <li><a href="https://www.munistgo.cl/oficina-municipal-de-intermediacion-laboral-omil/">Constancias Laborales Municipales</a></li>
+                    <li><a href="https://www.munistgo.cl/oficina-municipal-de-intermediacion-laboral-omil/">Constancias Laborales Educación</a></li>
+                    <li><a href="https://www.munistgo.cl/tramites-municipales/">Guía de Trámites Santiago en Línea</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="noticias bg-light">
+        <div class="container">
+            <div class="section-header">
+                <h2>Noticias</h2>
+            </div>
+            <div class="grid-4">
+                <div class="card news-card">
+                    <div class="image-container-fallback"><i class="fa-solid fa-hospital-user"></i></div>
+                    <div class="news-content">
+                        <span class="news-date">13/05/2026</span>
+                        <h4>Municipalidad de Santiago y Posta Central llaman a donar sangre para fortalecer la atención de pacientes críticos</h4>
+                    </div>
+                </div>
+                <div class="card news-card">
+                    <div class="image-container-fallback"><i class="fa-solid fa-shirt"></i></div>
+                    <div class="news-content">
+                        <span class="news-date">12/05/2026</span>
+                        <h4>Municipalidad impulsará nueva propuesta de vestuario laboral para funcionarias y funcionarios ajustada a normas de Contraloría</h4>
+                    </div>
+                </div>
+                <div class="card news-card">
+                    <div class="image-container-fallback"><i class="fa-solid fa-anchor"></i></div>
+                    <div class="news-content">
+                        <span class="news-date">15/05/2026</span>
+                        <h4>Mes del Mar en Santiago: Inédita marcha de la Armada por el casco histórico da inicio a un programa patrimonial</h4>
+                    </div>
+                </div>
+                <div class="card news-card">
+                    <div class="image-container-fallback"><i class="fa-solid fa-road"></i></div>
+                    <div class="news-content">
+                        <span class="news-date">14/05/2026</span>
+                        <h4>Obras de recuperación del eje Bandera alcanzan un 67% de avance y beneficiarán a usuarios de Red Movilidad</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="mega-footer">
+        <div class="container grid-4">
+            <div class="footer-column">
+                <h4>La Municipalidad</h4>
+                <ul>
+                    <li><a href="https://www.munistgo.cl/concejo-municipal/">Concejo Municipal</a></li>
+                    <li><a href="https://www.munistgo.cl/cosoc/">COSOC</a></li>
+                    <li><a href="https://www.munistgo.cl/transparencia/">Ordenanzas</a></li>
+                    <li><a href="https://www.munistgo.cl/transparencia/">Concursos Públicos</a></li>
+                    <li><a href="https://www.munistgo.cl/transparencia/">Instituciones Asociadas</a></li>
+                    <li><a href="https://www.munistgo.cl/transparencia/">Intranet Municipal</a></li>
+                    <li><a href="https://www.munistgo.cl/transparencia/">PLADECO</a></li>
+                    <li><a href="https://www.munistgo.cl/alcaldesa/">Alcalde</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Servicios Municipales</h4>
+                <ul>
+                    <li><a href="https://www.munistgo.cl/participacion-ciudadana/">Participación Ciudadana</a></li>
+                    <li><a href="https://www.munistgo.cl/discapacidad/">Discapacidad</a></li>
+                    <li><a href="https://www.munistgo.cl/pueblos-originarios/">Pueblos Originarios</a></li>
+                    <li><a href="https://www.munistgo.cl/migrantes/">Migrantes</a></li>
+                    <li><a href="https://www.munistgo.cl/centros-comunitarios/">Centros Comunitarios</a></li>
+                    <li><a href="https://www.munistgo.cl/familia/">Familia</a></li>
+                    <li><a href="https://www.munistgo.cl/juventud/">Juventud</a></li>
+                    <li><a href="https://www.munistgo.cl/personas-mayores/">Personas Mayores</a></li>
+                    <li><a href="https://www.munistgo.cl/infancia/">Infancia</a></li>
+                    <li><a href="https://www.munistgo.cl/deportes/">Deportes y Recreación</a></li>
+                    <li><a href="https://www.munistgo.cl/seguridad-santiago/">Seguridad</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Gestión Territorial</h4>
+                <ul>
+                    <li><a href="https://www.munistgo.cl/barrios/">Barrios y Convivencia</a></li>
+                    <li><a href="https://www.munistgo.cl/bibliotecas/">Bibliotecas</a></li>
+                    <li><a href="https://www.munistgo.cl/juzgados-de-policia-local/">Juzgados</a></li>
+                    <li><a href="https://www.munistgo.cl/licencias-de-conducir/">Tránsito</a></li>
+                    <li><a href="https://www.munistgo.cl/plan-regulador/">Mapa Comunal</a></li>
+                    <li><a href="https://www.munistgo.cl/higene-ambiental-mascotas/">Mascotas</a></li>
+                    <li><a href="https://www.munistgo.cl/oficina-municipal-de-intermediacion-laboral-omil/">Empleo</a></li>
+                    <li><a href="https://www.munistgo.cl/patentes-comerciales/">Emprendimiento</a></li>
+                    <li><a href="https://www.munistgo.cl/botica-comunitaria/">Botica Comunitaria</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Accesos IMS</h4>
+                <ul>
+                    <li><a href="https://www.munistgo.cl">Gestión de Calidad</a></li>
+                    <li><a href="https://www.munistgo.cl">Escritorio Digital Concejo</a></li>
+                    <li><a href="https://www.munistgo.cl">Acceso Intranet</a></li>
+                    <li><a href="https://www.munistgo.cl">Acceso E-Mail</a></li>
+                    <li><a href="login.html"><i class="fa-solid fa-lock"></i> Portal Administrador Vecino</a></li>
+                </ul>
+                <div class="social-networks mt-4">
+                    <h4>Nuestras redes sociales</h4>
+                    <div class="social-icons">
+                        <a href="https://www.facebook.com/munistgo"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="https://twitter.com/Muni_Stgo"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="https://www.instagram.com/munistgo"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://www.youtube.com/user/MuniStgo"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/index.js"></script>
+    <script src="../js/tarjeta.js"></script>
+
+</body>
+</html>
