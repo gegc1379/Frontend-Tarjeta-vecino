@@ -152,38 +152,39 @@
     </section>
 
 <section id="dashboard-vecino" class="dashboard-vecino container" style="display: none; margin-top: 40px; margin-bottom: 40px;">
-        <div class="dashboard-header">
-            <h2>Mi Portal Vecino</h2>
-            <div class="dashboard-tabs">
-                <button class="tab-btn active" id="tab-beneficios">Mis Beneficios</button>
-                <button class="tab-btn" id="tab-historial">Historial de Uso</button>
-            </div>
+    <div class="dashboard-header">
+        <h2 style="text-transform: uppercase; color: #072E6D; font-weight: 800; margin-bottom: 15px;">Dashboard del Vecino</h2>
+        <div class="dashboard-tabs">
+            <button class="tab-btn active" id="tab-beneficios">Beneficios</button>
+            <button class="tab-btn" id="tab-historial">Historial de Uso</button>
+        </div>
+    </div>
+
+    <div id="content-beneficios" class="tab-content active">
         </div>
 
-        <div id="content-beneficios" class="tab-content active">
-            </div>
-
-        <div id="content-historial" class="tab-content" style="display: none;">
-            <div class="table-responsive">
-                <table class="table-admin">
-                    <thead>
-                        <tr>
-                            <th>Fecha de Uso</th>
-                            <th>Beneficio</th>
-                            <th>Comercio</th>
-                            <th>Descuento</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tabla-historial-body">
-                        </tbody>
-                </table>
-            </div>
+    <div id="content-historial" class="tab-content" style="display: none;">
+        <div class="historial-container">
+            <table class="historial-table" id="tabla-historial">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Comercio</th>
+                        <th>Beneficio</th>
+                        <th>Descuento</th>
+                        <th>Código</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-historial-body">
+                    </tbody>
+            </table>
             
-            <p id="mensaje-historial-vacio" style="text-align: center; margin-top: 20px; display: none; color: #666;">
+            <p id="mensaje-historial-vacio" style="text-align: center; margin-top: 20px; display: none; color: #666; font-size: 1.1rem;">
                 Aún no has utilizado ningún beneficio.
             </p>
         </div>
-    </section>
+    </div>
+</section>
 
     <section class="convenios-destacados container">
         <div class="section-header">

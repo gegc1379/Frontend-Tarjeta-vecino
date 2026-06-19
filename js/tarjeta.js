@@ -106,16 +106,58 @@ document.addEventListener('DOMContentLoaded', () => {
 
             historial.forEach(item => {
                 // Formateamos la fecha que viene del backend
-                const fechaFormateada = new Date(item.fecha_uso).toLocaleDateString('es-CL');
+                const fechaFormateada = new Date(item.fecha_uso).toLocaleDateString('es-CL', {
+                    day: '2-digit', month: '2-digit', year: 'numeric'
+                });
 
                 // Inyectamos los NUEVOS nombres de las variables:
                 // item.beneficio y item.codigo_canje
                 const filaHTML = `
                     <tr>
-                        <td><strong>${fechaFormateada}</strong></td>
-                        <td>${item.beneficio}</td>
-                        <td><span class="categoria">CÓDIGO: ${item.codigo_canje}</span></td>
-                        <td><span style="color: #28a745; font-weight: bold;"><i class="fa-solid fa-check"></i> Canjeado</span></td>
+                        <td>
+                            <div class="historial-fecha">
+                                <i class="fa-regular fa-calendar"></i> ${fechaFormateada}
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="historial-info">
+                                <i class="fa-solid fa-store" style="color: #64748b;"></i>
+                                <div class="historial-textos">
+                                    <strong>${item.comercio || 'Convenio Municipal'}</strong>
+                                    <span>Convenio Directo</span>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="historial-info">
+                                <i class="fa-solid fa-gift" style="color: #072E6D;"></i>
+                                <div class="historial-textos">
+                                    <strong>${item.beneficio}</strong>
+                                    <span>Beneficio Municipal</span>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="historial-descuento">
+                                ${item.descuento ? `$${item.descuento}` : 'Canjeado'} 
+                                <div class="historial-check">
+                                    <i class="fa-solid fa-check"></i>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="historial-info">
+                                <i class="fa-solid fa-ticket" style="color: #0d9488;"></i>
+                                <div class="historial-textos">
+                                    <strong style="color: #0d9488; font-size: 1.1rem; font-weight: 800;">${item.codigo_canje}</strong>
+                                    <span>Código de Uso</span>
+                                </div>
+                            </div>
+                        </td>
                     </tr>
                 `;
                 tbody.insertAdjacentHTML('beforeend', filaHTML);
