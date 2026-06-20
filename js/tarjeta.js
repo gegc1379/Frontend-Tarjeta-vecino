@@ -109,13 +109,10 @@ document.addEventListener('DOMContentLoaded', () => {
             mensajeVacio.style.display = 'none';
 
             historial.forEach(item => {
-                // Formateamos la fecha que viene del backend
                 const fechaFormateada = new Date(item.fecha_uso).toLocaleDateString('es-CL', {
                     day: '2-digit', month: '2-digit', year: 'numeric'
                 });
 
-                // Inyectamos los NUEVOS nombres de las variables:
-                // item.beneficio y item.codigo_canje
                 const filaHTML = `
                     <tr>
                         <td>
@@ -197,7 +194,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             try {
-                // Volvimos al método original que sí te funcionaba perfectamente
                 const params = new URLSearchParams();
                 if (rutInput) params.append("rut", rutInput);
                 if (serieInput) params.append("numero_tarjeta", serieInput);
@@ -229,8 +225,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('card-rut').innerText = dataJson.rut;
                 document.getElementById('card-numero').innerText = dataJson.numero_tarjeta;
                 
-                // NOTA: Si en Python cambiaste "vigencia" por "fecha_vencimiento", ajústalo aquí abajo. 
-                // Si dejaste la opción A (recomendada) en Python, esto se queda igual:
                 document.getElementById('card-vigencia').innerText = dataJson.vigencia;
 
                 const tarjetaContainer = document.getElementById('tarjeta-vecino-container');
@@ -293,7 +287,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     boton.innerText = "Procesando...";
                     boton.disabled = true;
 
-                    // NUEVO CÓDIGO: Enviamos los datos por la URL como Query Params (No body)
                     const params = new URLSearchParams();
                     params.append("id_persona", idPersonaActiva);
                     params.append("id_beneficio", idBeneficioA_Canjear);
