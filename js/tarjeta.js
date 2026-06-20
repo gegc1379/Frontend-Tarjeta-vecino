@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (contentBeneficios) {
                 contentBeneficios.innerHTML = '<p style="text-align:center; padding: 40px;">Cargando beneficios municipales...</p>';
             }
-
+            
             const URL_API_BENEFICIOS = "http://127.0.0.1:8000/beneficios/";
             const response = await fetch(URL_API_BENEFICIOS, {
                 method: 'GET',
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const beneficios = await response.json();
-
+ 
             if (contentBeneficios) {
                 contentBeneficios.innerHTML = '<div class="beneficios-grid" id="grid-dinamico"></div>';
                 const grid = document.getElementById('grid-dinamico');
@@ -42,30 +42,177 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
 
-                beneficios.forEach(elemento => {
-                    let icono = "fa-gift"; 
-                    if (elemento.categoria === "Salud") icono = "fa-briefcase-medical";
-                    if (elemento.categoria === "Educación") icono = "fa-graduation-cap";
-                    if (elemento.categoria === "Comercio") icono = "fa-store";
-                    if (elemento.categoria === "Deporte") icono = "fa-volleyball";
+                //Establecer variables principales de ciclo y navegación manual (recorrer beneficios dinámicos)
+                const BENEFICIOS_POR_PAGINA = 8;
+                let paginaActual = 0;
+                let cicloActual = 1;
+                const totalPaginas = Math.ceil(beneficios.length / BENEFICIOS_POR_PAGINA);
+                let temporizador = null;
+                let navegacionManual = false;
 
-                    const cardHTML = `
-                        <div class="beneficio-item-card">
-                            <div class="beneficio-icon-wrapper"><i class="fa-solid ${icono}"></i></div>
-                            <div class="beneficio-details">
-                                <span class="categoria">${elemento.categoria || 'Convenio'}</span>
-                                <h4>${elemento.nombre || elemento.titulo}</h4>
-                                <p><i class="fa-solid fa-tag"></i> ${elemento.descripcion}</p>
+                //Crear estructura html para la muestra de beneficios 
+                function renderPagina(indicePagina) {
+
+                    grid.innerHTML = '';
+                    const inicio = indicePagina * BENEFICIOS_POR_PAGINA;
+                    const fin = inicio + BENEFICIOS_POR_PAGINA;
+                    const paginaBeneficios = beneficios.slice(inicio, fin);
+
+                    paginaBeneficios.forEach(elemento => {
+
+                        let icono = "fa-gift";
+
+                        if (elemento.categoria === "Salud") icono = "fa-briefcase-medical";
+                        if (elemento.categoria === "Educación") icono = "fa-graduation-cap";
+                        if (elemento.categoria === "Comercio") icono = "fa-store";
+                        if (elemento.categoria === "Deporte") icono = "fa-volleyball";
+
+                        const cardHTML = `
+                            <div class="beneficio-item-card">
+                                <div class="beneficio-icon-wrapper">
+                                    <i class="fa-solid ${icono}"></i>
+                                </div>
+
+                                <div class="beneficio-details">
+                                    <span class="categoria">${elemento.categoria || 'Convenio'}</span>
+                                    <h4>${elemento.nombre || elemento.titulo}</h4>
+                                    <p>
+                                        <i class="fa-solid fa-tag"></i>
+                                        ${elemento.descripcion}
+                                    </p>
+                                </div>
+
+                                <button
+                                    class="btn-outline btn-canjear"
+                                    data-id="${elemento.id_beneficio}">
+                                    Obtener Beneficio
+                                </button>
                             </div>
-                            <button class="btn-outline btn-canjear" data-id="${elemento.id_beneficio}">Obtener Beneficio</button>
-                        </div>
-                    `;
-                    grid.insertAdjacentHTML('beforeend', cardHTML);
+                        `;
+
+                        grid.insertAdjacentHTML('beforeend', cardHTML);
+                    });
+
+                    actualizarIndicadores();
+                }
+
+                //Crear indicadores dinámicos
+                function actualizarIndicadores() {  
+
+                const contenedor = document.getElementById('beneficios-indicadores');
+                contenedor.innerHTML = '';
+
+                    for (let i = 0; i < totalPaginas; i++) {
+                        contenedor.insertAdjacentHTML(
+                            'beforeend',
+                            `
+                            <span
+                                class="indicador-beneficio ${i === paginaActual ? 'activo' : ''}"
+                                data-pagina="${i}">
+                            </span>
+                            `
+                        );
+                    }
+                }
+
+                //Crear botones de navegación anterior-siguiente
+                grid.insertAdjacentHTML(
+                    'afterend',
+                    `
+                    <div class="beneficios-navegacion">
+
+                        <button id="btn-prev-beneficios" class="btn-nav-beneficios">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+
+                        <div id="beneficios-indicadores"></div>
+
+                        <button id="btn-next-beneficios" class="btn-nav-beneficios">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+
+                    </div>
+                    `
+                );
+
+                //Botón navegación siguiente
+                document.getElementById('btn-next-beneficios')
+                ?.addEventListener('click', () => {
+
+                    navegacionManual = true;
+                    clearInterval(temporizador);
+
+                    paginaActual++;
+
+                    if (paginaActual >= totalPaginas) {
+                        paginaActual = 0;
+                    }
+
+                    renderPagina(paginaActual);
                 });
+
+                //Botón navegación anterior
+                document.getElementById('btn-prev-beneficios')
+                ?.addEventListener('click', () => {
+
+                    navegacionManual = true;
+                    clearInterval(temporizador);
+
+                    paginaActual--;
+
+                    if (paginaActual < 0) {
+                        paginaActual = totalPaginas - 1;
+                    }
+
+                    renderPagina(paginaActual);
+                });
+
+                //Navegación por indicadores
+                document.addEventListener('click', (e) => {
+
+                    const indicador = e.target.closest('.indicador-beneficio');
+
+                    if (!indicador) return;
+
+                    navegacionManual = true;
+                    clearInterval(temporizador);
+                    paginaActual = parseInt(indicador.dataset.pagina);
+
+                    renderPagina(paginaActual);
+                });
+
+                //Temporizador y detención interaccion manual
+                temporizador = setInterval(() => {
+
+                    if (navegacionManual) {
+                        clearInterval(temporizador);
+                        return;
+                    }
+
+                    paginaActual++;
+
+                    if (paginaActual >= totalPaginas) {
+                        paginaActual = 0;
+                        cicloActual++;
+
+                        if (cicloActual > 3) {
+                            // Mostrar nuevamente la primera página
+                            paginaActual = 0;
+                            renderPagina(paginaActual);
+
+                            clearInterval(temporizador);
+                            return;
+                        }
+                    }
+                    //Establecer tiempos entre iteración
+                    renderPagina(paginaActual);
+                }, 10000);
+
+                paginaActual = 0;
+                renderPagina(paginaActual);
+                beneficiosCargados = true;
             }
-
-            beneficiosCargados = true;
-
+            
         } catch (error) {
             console.error("Error al cargar beneficios:", error.message);
             if (contentBeneficios) {
@@ -331,20 +478,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const contentHistorial = document.getElementById('content-historial');
 
     if(tabBeneficios && tabHistorial) {
-        tabBeneficios.addEventListener('click', () => {
+        tabBeneficios.addEventListener('click', async () => {
             tabBeneficios.classList.add('active');
             tabHistorial.classList.remove('active');
-            if(contentBeneficios) contentBeneficios.style.display = 'block';
-            if(contentHistorial) contentHistorial.style.display = 'none';
+
+            if(contentBeneficios)
+                contentBeneficios.style.display = 'block';
+            if(contentHistorial)
+                contentHistorial.style.display = 'none';
+
+            // Reiniciar carrusel
+            beneficiosCargados = false;
+            await cargarBeneficios();
         });
 
         tabHistorial.addEventListener('click', () => {
             tabHistorial.classList.add('active');
             tabBeneficios.classList.remove('active');
-            if(contentHistorial) contentHistorial.style.display = 'block';
-            if(contentBeneficios) contentBeneficios.style.display = 'none';
-            
-            cargarHistorial(); // Refresca los datos del historial al abrir la pestaña
+
+            if(contentHistorial)
+                contentHistorial.style.display = 'block';
+            if(contentBeneficios)
+                contentBeneficios.style.display = 'none';
+
+            cargarHistorial();
         });
     }
 
@@ -378,4 +535,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     });
 
+    
 });

@@ -1308,3 +1308,40 @@ body.dark-mode .btn-ver-codigo{
     background:#1e293b;
     color:#ffffff;
 }
+
+/* --- Indicadores y botones de navegación Beneficios --- */
+
+.beneficios-navegacion{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:20px;
+    margin-top:20px;
+}
+
+#beneficios-indicadores{
+    display:flex;
+    gap:10px;
+}
+
+.indicador-beneficio{
+    width:12px;
+    height:12px;
+    border-radius:50%;
+    background:#d1d5db;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.indicador-beneficio.activo{
+    background:#fbbf24;
+}
+
+.btn-nav-beneficios{
+    width:40px;
+    height:40px;
+    border:1px solid #d1d5db;
+    border-radius:8px;
+    background:#fff;
+    cursor:pointer;
+}
