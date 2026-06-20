@@ -134,3 +134,44 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 });
+
+
+// ==========================================
+// MÓDULO DE AUDITORÍA (Desarrollado por Camila)
+// ==========================================
+
+// Función para traer los datos del Backend usando path params
+async function cargarAuditoria(idUsuario) {
+    // Aquí definimos la URL con el path param al final (idUsuario). 
+    // NOTA: Los chicos del Backend deben darnos la URL real cuando la tengan lista.
+    const urlBackend = `http://localhost:5000/api/auditoria/${idUsuario}`;
+
+    try {
+        // 1. Vamos a buscar los datos al Backend
+        const respuesta = await fetch(urlBackend);
+        const datos = await respuesta.json();
+
+        // 2. Identificamos dónde vamos a inyectar las filas
+        const cuerpoTabla = document.getElementById('cuerpo-tabla-auditoria');
+        cuerpoTabla.innerHTML = ''; // Limpiamos el texto de "Cargando..."
+
+        // 3. Rellenamos la tabla de forma dinámica
+        datos.forEach(registro => {
+            const fila = `
+                <tr>
+                    <td style="padding: 12px; border-bottom: 1px solid #dee2e6;">${registro.id_auditoria}</td>
+                    <td style="padding: 12px; border-bottom: 1px solid #dee2e6;">${registro.tabla_afectada}</td>
+                    <td style="padding: 12px; border-bottom: 1px solid #dee2e6;">${registro.accion_realizada}</td>
+                    <td style="padding: 12px; border-bottom: 1px solid #dee2e6;">${registro.descripcion}</td>
+                    <td style="padding: 12px; border-bottom: 1px solid #dee2e6;">${registro.usuario_accion}</td>
+                    <td style="padding: 12px; border-bottom: 1px solid #dee2e6;">${registro.fecha_accion}</td>
+                </tr>
+            `;
+            cuerpoTabla.innerHTML += fila; // Sumamos la fila a la tabla
+        });
+
+    } catch (error) {
+        console.error("Error al cargar la auditoría:", error);
+        document.getElementById('cuerpo-tabla-auditoria').innerHTML = '<tr><td colspan="6" style="text-align:center;">Error de conexión con el Backend.</td></tr>';
+    }
+}
