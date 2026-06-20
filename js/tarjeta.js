@@ -6,6 +6,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let beneficiosCargados = false;
     let idPersonaActiva = null; 
 
+    function ocultarCodigo(codigo) {
+        return '*'.repeat(codigo.length - 6) + codigo.slice(-6);
+    }
+
     async function cargarBeneficios() {
         if (beneficiosCargados) return;
 
@@ -150,12 +154,24 @@ document.addEventListener('DOMContentLoaded', () => {
                         </td>
 
                         <td>
-                            <div class="historial-info">
+                            <div class="historial-info historial-codigo">
                                 <i class="fa-solid fa-ticket" style="color: #0d9488;"></i>
                                 <div class="historial-textos">
-                                    <strong style="color: #0d9488; font-size: 1.1rem; font-weight: 800;">${item.codigo_canje}</strong>
+                                    <strong
+                                        class="codigo-canje"
+                                        data-visible="false"
+                                        data-codigo="${item.codigo_canje}"
+                                        style="color:#0d9488;font-size:1.1rem;font-weight:800;">
+                                        ${ocultarCodigo(item.codigo_canje)}
+                                    </strong>
+
                                     <span>Código de Uso</span>
                                 </div>
+
+                                <button class="btn-ver-codigo" type="button" title="Mostrar código">
+                                    <i class="fa-solid fa-eye"></i>
+                                </button>
+
                             </div>
                         </td>
                     </tr>
@@ -331,5 +347,35 @@ document.addEventListener('DOMContentLoaded', () => {
             cargarHistorial(); // Refresca los datos del historial al abrir la pestaña
         });
     }
+
+    //Configuracion del botón de mostrar/ocultar código de canje en el historial
+    document.addEventListener('click', function(e) {
+
+    const boton = e.target.closest('.btn-ver-codigo');
+
+    if (!boton) return;
+
+    const codigoElement = boton.parentElement.querySelector('.codigo-canje');
+    const codigoCompleto = codigoElement.dataset.codigo;
+    const icono = boton.querySelector('i');
+    const visible = codigoElement.dataset.visible === 'true';
+
+    if (visible) {
+
+        codigoElement.textContent = ocultarCodigo(codigoCompleto);
+        codigoElement.dataset.visible = 'false';
+
+        icono.classList.remove('fa-eye-slash');
+        icono.classList.add('fa-eye');
+
+    } else {
+
+        codigoElement.textContent = codigoCompleto;
+        codigoElement.dataset.visible = 'true';
+
+        icono.classList.remove('fa-eye');
+        icono.classList.add('fa-eye-slash');
+    }
+    });
 
 });
