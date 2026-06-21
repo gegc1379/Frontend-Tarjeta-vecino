@@ -136,38 +136,34 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-    // ==========================================
-    // MÓDULO DE AUDITORÍA (Desarrollado por Camila)
-    // ==========================================
-
-    // Función para traer TODO el registro de auditoría mediante un GET general (sin parámetros)
     async function cargarAuditoria() {
-    // URL limpia sin query ni path params, como pidió el equipo Backend
-    const urlBackend = `http://localhost:5000/api/auditoria`;
-
+    const urlBackend = `http://localhost:8000/auditoria/`;
+    
     try {
-        const respuesta = await fetch(urlBackend);
+        const respuesta = await Auth.fetchProtegido(urlBackend);
+        if (!respuesta.ok) throw new Error("No autorizado o error del servidor");
+        
         const datos = await respuesta.json();
-
         const cuerpoTabla = document.getElementById('cuerpo-tabla-auditoria');
         cuerpoTabla.innerHTML = ''; 
 
-        // Rellenamos la tabla respetando el nuevo orden: Fecha primero, sin ID
         datos.forEach(registro => {
             const fila = `
-                <tr>
-                    <td style="padding: 12px; border-bottom: 1px solid #dee2e6;">${registro.fecha_accion}</td>
-                    <td style="padding: 12px; border-bottom: 1px solid #dee2e6;">${registro.tabla_afectada}</td>
-                    <td style="padding: 12px; border-bottom: 1px solid #dee2e6;">${registro.accion_realizada}</td>
-                    <td style="padding: 12px; border-bottom: 1px solid #dee2e6;">${registro.descripcion}</td>
-                    <td style="padding: 12px; border-bottom: 1px solid #dee2e6;">${registro.usuario_accion}</td>
+                <tr style="transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='rgba(255,255,255,0.05)'" onmouseout="this.style.backgroundColor='transparent'">
+                    <td style="padding: 12px; border-bottom: 1px solid #444;">${registro.fecha_accion}</td>
+                    <td style="padding: 12px; border-bottom: 1px solid #444;">${registro.tabla_afectada}</td>
+                    <td style="padding: 12px; border-bottom: 1px solid #444;">${registro.accion_realizada}</td>
+                    <td style="padding: 12px; border-bottom: 1px solid #444;">${registro.descripcion}</td>
+                    <td style="padding: 12px; border-bottom: 1px solid #444;">${registro.usuario_accion}</td>
                 </tr>
             `;
             cuerpoTabla.innerHTML += fila; 
         });
 
     } catch (error) {
-        console.error("Error al cargar la auditoría:", error);
-        document.getElementById('cuerpo-tabla-auditoria').innerHTML = '<tr><td colspan="5" style="text-align:center;">Error de conexión con el Backend.</td></tr>';
+        console.error(error);
+        document.getElementById('cuerpo-tabla-auditoria').innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 15px;">Error de conexión con el Backend.</td></tr>';
     }
-}
+    }
+
+    cargarAuditoria();
