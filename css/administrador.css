@@ -299,3 +299,143 @@
     .admin-sidebar { display: none; }
     .content-area { padding: 20px; }
 }
+
+/* ── TABLA DE VECINOS ─────────────────────────────────────────── */
+.tabla-search-bar {
+    position: relative;
+    margin-bottom: 20px;
+}
+.tabla-search-bar i {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gray-text);
+}
+.tabla-search-bar input {
+    width: 100%;
+    max-width: 380px;
+    padding: 10px 10px 10px 38px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+.tabla-search-bar input:focus { border-color: var(--primary-blue); }
+
+.tabla-wrapper {
+    overflow-x: auto;
+}
+.tabla-vecinos {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+.tabla-vecinos thead tr {
+    background-color: var(--primary-blue);
+    color: var(--white);
+}
+.tabla-vecinos th {
+    padding: 13px 16px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+.tabla-vecinos td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--dark-text);
+    vertical-align: middle;
+}
+.tabla-vecinos tbody tr:hover { background-color: #f8faff; }
+.tabla-loading {
+    text-align: center;
+    padding: 40px !important;
+    color: var(--gray-text);
+}
+.tabla-error { color: var(--danger) !important; }
+
+.acciones-celda {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+.btn-accion {
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+.btn-editar {
+    background-color: rgba(49, 130, 206, 0.1);
+    color: var(--stat-blue);
+}
+.btn-editar:hover {
+    background-color: var(--stat-blue);
+    color: var(--white);
+}
+.btn-eliminar {
+    background-color: rgba(229, 62, 62, 0.1);
+    color: var(--stat-red);
+}
+.btn-eliminar:hover {
+    background-color: var(--stat-red);
+    color: var(--white);
+}
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.modal-box {
+    background: var(--white);
+    border-radius: 14px;
+    width: 100%;
+    max-width: 680px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    animation: fadeIn 0.2s ease;
+}
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 28px;
+    border-bottom: 1px solid var(--border-color);
+}
+.modal-header h3 {
+    color: var(--primary-blue);
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: var(--gray-text);
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: background 0.2s;
+}
+.modal-close:hover { background: var(--light-bg); color: var(--dark-text); }
+.modal-box .admin-form { padding: 24px 28px; }
