@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const dashboardVecino = document.getElementById("dashboard-vecino");
     const inputGroup = document.querySelector(".rut-input-group");
 
-    // Datos simulados del usuario de prueba
+    // Datos simulados del usuario de prueba (Simula la respuesta del Backend)
     const USUARIO_PRUEBA = {
         rut: "12345678-9",
         serie: "2026",
@@ -26,10 +26,32 @@ document.addEventListener("DOMContentLoaded", () => {
         const serieIngresada = inputSerie.value.trim();
 
         if (rutIngresado === USUARIO_PRUEBA.rut && serieIngresada === USUARIO_PRUEBA.serie) {
-            // Rellenar datos en la tarjeta
+            
+            // 1.1 CONFIGURACIÓN DE DATOS MUNICIPALES (CON ENMASCARAMIENTO)
+            const spanRut = document.getElementById("card-rut");
+            const spanNumero = document.getElementById("card-numero");
+
+            // Guardar los datos reales en atributos personalizados
+            spanRut.setAttribute("data-original", USUARIO_PRUEBA.rut);
+            spanNumero.setAttribute("data-original", USUARIO_PRUEBA.numeroTarjeta);
+
+            // Generar máscaras dinámicas según el largo del dato que venga del backend
+            // Ejemplo RUT: "12345678-9" -> "1234-*****"
+            const mascaraRut = USUARIO_PRUEBA.rut.substring(0, 4) + "-*****";
+            // Ejemplo Tarjeta: "STGO-9948271" -> "STGO-*******"
+            const mascaraTarjeta = USUARIO_PRUEBA.numeroTarjeta.substring(0, 5) + "*******";
+
+            spanRut.setAttribute("data-mascara", mascaraRut);
+            spanNumero.setAttribute("data-mascara", mascaraTarjeta);
+
+            // Inyectar datos iniciales (Ocultos por defecto)
             document.getElementById("card-nombre").textContent = USUARIO_PRUEBA.nombre;
-            document.getElementById("card-rut").textContent = USUARIO_PRUEBA.rut;
-            document.getElementById("card-numero").textContent = USUARIO_PRUEBA.numeroTarjeta;
+            spanRut.textContent = mascaraRut;
+            spanRut.setAttribute("data-visible", "false");
+            
+            spanNumero.textContent = mascaraTarjeta;
+            spanNumero.setAttribute("data-visible", "false");
+
             document.getElementById("card-vigencia").textContent = USUARIO_PRUEBA.vigencia;
             document.getElementById("card-qr-img").src = USUARIO_PRUEBA.qrUrl;
 
@@ -68,25 +90,21 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // ==========================================
-    // 3. CIFRADO Y VISIBILIDAD DE CÓDIGOS
+    // 3. CIFRADO Y VISIBILIDAD GENERAL (CÓDIGOS Y TARJETA)
     // ==========================================
-    const toggleButtons = document.querySelectorAll(".btn-toggle-codigo");
+    // Modificado para capturar tanto los botones de beneficios como los de la tarjeta
+    const toggleButtons = document.querySelectorAll(".btn-toggle-codigo, .btn-toggle-tarjeta");
 
     toggleButtons.forEach(button => {
+        // Buscamos el span que está inmediatamente antes del botón
         const codigoSpan = button.previousElementSibling;
-        const codigoOriginal = codigoSpan.getAttribute("data-codigo");
         
-        // Cifrado inicial: Toma las 4 primeras letras y añade asteriscos
-        const visibleLength = 4;
-        const mascara = codigoOriginal.substring(0, visibleLength) + "-*****";
-        
-        // Configuración por defecto
-        codigoSpan.textContent = mascara;
-        codigoSpan.setAttribute("data-visible", "false");
-
         button.addEventListener("click", (e) => {
-            // Evitar cualquier comportamiento secundario
             e.preventDefault();
+            
+            // Obtener dinámicamente los valores guardados en los atributos del elemento de texto
+            const codigoOriginal = codigoSpan.getAttribute("data-codigo") || codigoSpan.getAttribute("data-original");
+            const mascara = codigoSpan.getAttribute("data-mascara") || (codigoOriginal.substring(0, 4) + "-*****");
             
             const isVisible = codigoSpan.getAttribute("data-visible") === "true";
             const icon = button.querySelector("i");
