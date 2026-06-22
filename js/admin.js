@@ -324,4 +324,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     cargarAuditoria();
+
+    setInterval(cargarAuditoria, 5000);
 });
