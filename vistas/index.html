@@ -151,60 +151,40 @@
         </div>
     </section>
 
-    <section id="dashboard-vecino" class="dashboard-vecino container" style="display: none; margin-top: 40px; margin-bottom: 40px;">
-        <div class="dashboard-header">
-            <h2>Mi Portal Vecino</h2>
-            <div class="dashboard-tabs">
-                <button class="tab-btn active" id="tab-beneficios">Mis Beneficios</button>
-                <button class="tab-btn" id="tab-historial">Historial de Uso</button>
-            </div>
+<section id="dashboard-vecino" class="dashboard-vecino container" style="display: none; margin-top: 40px; margin-bottom: 40px;">
+    <div class="dashboard-header">
+        <h2 style="text-transform: uppercase; color: #072E6D; font-weight: 800; margin-bottom: 15px;">Dashboard del Vecino</h2>
+        <div class="dashboard-tabs">
+            <button class="tab-btn active" id="tab-beneficios">Beneficios</button>
+            <button class="tab-btn" id="tab-historial">Historial de Uso</button>
+        </div>
+    </div>
+
+    <div id="content-beneficios" class="tab-content active">
         </div>
 
-        <div id="content-beneficios" class="tab-content active">
-            <div class="beneficios-grid">
-                <div class="beneficio-item-card">
-                    <div class="beneficio-icon-wrapper"><i class="fa-solid fa-briefcase-medical"></i></div>
-                    <div class="beneficio-details">
-                        <span class="categoria">Salud</span>
-                        <h4>Descuento 20% Farmacias</h4>
-                        <p><i class="fa-solid fa-location-dot"></i> Red Salud Sur</p>
-                    </div>
-                    <button class="btn-outline">Obtener Beneficio</button>
-                </div>
-                <div class="beneficio-item-card">
-                    <div class="beneficio-icon-wrapper"><i class="fa-solid fa-graduation-cap"></i></div>
-                    <div class="beneficio-details">
-                        <span class="categoria">Educación</span>
-                        <h4>Beca 15% Preuniversitario</h4>
-                        <p><i class="fa-solid fa-location-dot"></i> Instituto Nacional</p>
-                    </div>
-                    <button class="btn-outline">Obtener Beneficio</button>
-                </div>
-                <div class="beneficio-item-card">
-                    <div class="beneficio-icon-wrapper"><i class="fa-solid fa-store"></i></div>
-                    <div class="beneficio-details">
-                        <span class="categoria">Comercio</span>
-                        <h4>10% Compras Locales</h4>
-                        <p><i class="fa-solid fa-location-dot"></i> Minimarket El Sol</p>
-                    </div>
-                    <button class="btn-outline">Obtener Beneficio</button>
-                </div>
-                <div class="beneficio-item-card">
-                    <div class="beneficio-icon-wrapper"><i class="fa-solid fa-volleyball"></i></div>
-                    <div class="beneficio-details">
-                        <span class="categoria">Deporte</span>
-                        <h4>Acceso Liberado Piscina</h4>
-                        <p><i class="fa-solid fa-location-dot"></i> Polideportivo Central</p>
-                    </div>
-                    <button class="btn-outline">Obtener Beneficio</button>
-                </div>
-            </div>
+    <div id="content-historial" class="tab-content" style="display: none;">
+        <div class="historial-container">
+            <table class="historial-table" id="tabla-historial">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Comercio</th>
+                        <th>Beneficio</th>
+                        <th>Descuento</th>
+                        <th>Código</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-historial-body">
+                    </tbody>
+            </table>
+            
+            <p id="mensaje-historial-vacio" style="text-align: center; margin-top: 20px; display: none; color: #666; font-size: 1.1rem;">
+                Aún no has utilizado ningún beneficio.
+            </p>
         </div>
-
-        <div id="content-historial" class="tab-content" style="display: none;">
-            <p style="color: #666; text-align: center; padding: 40px;">Aquí construiremos la tabla del historial en el siguiente paso.</p>
-        </div>
-    </section>
+    </div>
+</section>
 
     <section class="convenios-destacados container">
         <div class="section-header">

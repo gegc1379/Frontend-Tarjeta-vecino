@@ -1117,3 +1117,194 @@ body.alto-contraste .section-header h2::after {
 body.dark-mode .dashboard-vecino { background-color: #16213e; }
 body.dark-mode .beneficio-item-card { border-color: #374151; }
 body.dark-mode .beneficio-icon-wrapper { background-color: #0f3460; }
+
+.d-none {
+    display: none !important;
+}
+
+/* Contenedor principal para darle el fondo blanco y la sombra */
+.historial-container {
+    background-color: var(--white, #FFFFFF);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    padding: 20px 30px;
+    margin-top: 10px;
+    width: 100%;
+    overflow-x: auto; /* Para que en móviles se pueda scrollear si es muy larga */
+}
+
+/* Estructura base de la tabla */
+.historial-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px; 
+    font-family: 'Source Sans 3', sans-serif;
+}
+
+/* --- ENCABEZADOS DE LA TABLA (THEAD) --- */
+.historial-table th {
+    color: var(--primary-blue, #072E6D);
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 10px 15px;
+    border-bottom: 2px solid #e2e8f0;
+    text-align: center; 
+}
+
+/* --- FILAS DE DATOS (TBODY TR) --- */
+.historial-table tbody tr {
+    background-color: #f8fafc; /* Fondo gris súper clarito de cada fila */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.historial-table tbody tr:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+    background-color: #f1f5f9;
+}
+
+/* --- CELDAS DE DATOS (TD) --- */
+.historial-table td {
+    padding: 15px;
+    vertical-align: middle;
+    color: var(--dark-text, #52594A);
+    border-top: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+/* Agregamos los bordes y el radio para que la fila se vea como una caja cerrada */
+.historial-table tbody tr td:first-child {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-left: 1px solid #e2e8f0;
+}
+
+.historial-table tbody tr td:last-child {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-right: 1px solid #e2e8f0;
+}
+
+
+/* La columna de la Fecha (Ej: 20/05/2026) */
+.historial-fecha {
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    gap: 8px;
+}
+.historial-fecha i {
+    color: #64748b;
+    font-size: 1.2rem;
+}
+
+/* Columna del Beneficio, Comercio y Código */
+.historial-info {
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    gap: 12px;
+}
+.historial-info i {
+    color: var(--primary-blue, #072E6D);
+    font-size: 1.4rem;
+}
+.historial-info i.fa-ticket {
+    color: #0d9488;
+    font-size: 1.3rem;
+}
+.historial-textos {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+.historial-textos strong {
+    color: var(--primary-blue, #072E6D);
+    font-size: 1.05rem;
+    line-height: 1.2;
+}
+.historial-textos span {
+    color: #64748b;
+    font-size: 0.85rem;
+    margin-top: 3px;
+}
+
+/* Columna del Descuento / Check */
+.historial-descuento {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--primary-blue, #072E6D);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+.historial-descuento span {
+    font-size: 1rem;
+    color: #0f172a;
+}
+
+/* El círculo verde con el check */
+.historial-check {
+    background-color: #0d9488;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+
+}
+
+/* --- Botón mostrar/ocultar código canje --- */
+.historial-codigo{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    width:100%;
+}
+
+.codigo-canje{
+    letter-spacing:1px;
+    color:#0d9488;
+    font-weight:800;
+}
+
+.btn-ver-codigo{
+    width:36px;
+    height:36px;
+
+    border:none;
+    border-radius:50%;
+
+    background:#f1f5f9;
+    color:#072E6D;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    cursor:pointer;
+
+    transition:all .2s ease;
+}
+
+.btn-ver-codigo:hover{
+    background:#e2e8f0;
+    transform:scale(1.05);
+}
+
+.btn-ver-codigo i{
+    font-size:14px;
+}
+
+body.dark-mode .btn-ver-codigo{
+    background:#1e293b;
+    color:#ffffff;
+}
